@@ -131,7 +131,7 @@ function loadGame()
   var fileref=document.createElement('script');
   fileref.setAttribute("id","gameScript");
   fileref.setAttribute("type","text/javascript");
-  fileref.setAttribute("src", "/html5game/agrigame1-73h.js?CXUAC=308739888");
+  fileref.setAttribute("src", "/game/agrigame1-73h.js?CXUAC=308739888");
   document.getElementsByTagName("body")[0].appendChild(fileref);
   eval(fileref);
 }

@@ -21,4 +21,3 @@ if (isset($_REQUEST['login']))
 		printData('error', getSubdomain());
 	}
 }
-?>

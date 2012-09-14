@@ -20,4 +20,3 @@ else
 {
 	printData('error', 'user not logged in');
 }
-?>

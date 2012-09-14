@@ -41,4 +41,3 @@ else
 {
 	printData('error', 'Unknown farm or e-mail');
 }
-?>

@@ -144,4 +144,3 @@ function getSubdomain()
 
 	return $subdomain[0];
 }
-?>

@@ -107,4 +107,3 @@ Welcome to the farm <user>, invite people you trust to help grow <farm name> int
 Sincerely,
 The Green Dream Team
 */
-?>

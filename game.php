@@ -73,6 +73,6 @@
 		<!--input type="button" value="logout" onclick="javascript:logout()" -->
 
 		<!-- Run the game code -->
-		<script type="text/javascript" src="/html5game/agrigame1-98.js?BDRAC=1479659675"></script>
+		<script type="text/javascript" src="/game/agrigame1-98.js?BDRAC=1479659675"></script>
 	</body>
 </html>
