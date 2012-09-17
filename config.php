@@ -25,18 +25,3 @@ mysql_select_db(DB_NAME) or die("MySQL Error: " . mysql_error());
 // Initialize the session
 session_set_cookie_params(0, '/', '.' . DOMAIN);
 session_start();
-
-// Get Facebook up and running
-require_once("libs/facebook/facebook.php");
-
-$config = array();
-$config["fb_app_id"] = FB_APPID;
-$config["fb_app_secret"] = FB_SECRET;
-$config["base_url"] = FB_REDIRECT;
-$config["fb_fields"] = array(
-    	array("name" => "name")
-    ,	array("name" => "email")
-    ,   array("name" => "farmname", "description" => "How will you call your farm?", "type" => "text")
-);
-
-$facebook = new Facebook($config);

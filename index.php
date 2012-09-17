@@ -1,33 +1,9 @@
 <?php
 require 'config.php';
 require 'libs/utils.lib.php';
-require 'libs/facebook/facebook.php';
 
-$facebook = new Facebook(array(
-            'appId' => $config["fb_app_id"],
-            'secret' => $config["fb_app_secret"],
-            'cookie' => true,
-        ));
+// Roll back to Fede's version! It's in the commit history so don't worry about it now.
 
-$congratulations = FALSE;
-// capture the $_REQUEST coming to this page and check if it's a new user
-check_registration($facebook,$config["fb_fields"]);
-
-$session = $facebook->getSession();
-
-$me = null;
-// Session based API call.
-if ($session) {
-    try {
-        $uid = $facebook->getUser();
-        // We can use a Graph API call from the PHP-SDK
-        //$me = $facebook->api('/me');
-        // Or just use our Database!
-        $me = get_user_by_id($uid);
-    } catch (FacebookApiException $e) {
-        error_log($e);
-    }
-}
 // Get some variables first, we don't want to mess up the HTML with lots of PHP
 // I'd definitely love a templating engine right now
 $title = "Make It Grow";
