@@ -1,6 +1,4 @@
 <?php
-
-
 function printData($status, $data)
 {
 $output = "{
