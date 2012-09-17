@@ -1,12 +1,13 @@
 <?php
+
 function printData($status, $data)
 {
-$output = "{
-    \"result\": {
-        \"status\": \"$status\",
-        \"data\": \"$data\"
-    }
-}";
+	$output = "{
+	    \"result\": {
+	        \"status\": \"$status\",
+	        \"data\": \"$data\"
+	    }
+	}";
 	
 	echo $output;
 }

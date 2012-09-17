@@ -1,6 +1,5 @@
 <?php
-require_once("config/index.php");
-require_once('libs/index.php');
+require_once("config.php");
 
 /*
 check logged in
@@ -56,32 +55,56 @@ else
 	}
 }
 
-?>
+// Get some variables first, we don't want to mess up the HTML with lots of PHP
+$title = "Make It Grow";
+if ($isloggedin)
+  $title = "".$farmName." Holistic Farm | ".$title;
 
+$description = " my holistic farm at Make It Grow!"
+if ($isloggedin)
+  $description = "Come visit".$description; 
+else
+  $description = "Grow your own".$description;
+
+// Login/out messages and url
+$log_url = "";
+if ($isloggedin)
+  $log_url = '?mode=logout';
+
+$log_text = "Log ";
+if ($isloggedin)
+   $log_text .= "out";
+else
+   $log_text .= "in"
+
+// Register link
+if ($isloggedin)
+  $register_link = "";
+else
+  $register_link = '<a href="/users/?mode=register">Register</a>';
+
+// Register FB link
+if ($isloggedin)
+  $register_fb_link = "";
+else
+  $register_fb_link = '<div style="float: right;">
+          <a href="https://www.facebook.com/dialog/oauth?client_id='.FB_APP.'&redirect_uri='.FB_RETURN_URL.'" title="Signup with facebook">
+            <button>Signup with facebook</button>
+          </a>
+        </div>';
+
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xml:lang="en" lang="en" version="-//W3C//DTD XHTML 1.1//EN" xmlns="http://www.w3.org/1999/xhtml" itemscope itemtype="http://schema.org/">
   <head>
     <!-- Make sure to modify the Title and Description according to whether the user is
     logged in or not so the social sharing plugins work as expected -->
-    <title>
-    <?php
-      if ($isloggedin)
-        echo "".$farmName." Holistic Farm | "; 
-      echo "Make It Grow";
-    ?>
-    </title>
+    <title><?=$title?></title>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <meta http-equiv="cache-control" content="public" />
     <meta name="robots" content="follow, all" />
     <meta name="language" content="en" />
-    <meta name="description" content="
-    <?php
-      if ($isloggedin)
-        echo "Come visit my holistic farm at Make It Grow!"; 
-      else
-        echo "Grow your own holistic farm at Make It Grow!";
-    ?>
-    " />
+    <meta name="description" content="<?=$description?>" />
     
     <script type="text/javascript">
     //Social Sharing Analytics
@@ -95,28 +118,19 @@ else
   </head>
   <body>
     <nav>
-      <a href="/users/<?php ($isloggedin) ? '?mode=logout'; : "" ?>">
-      <?php 
-        if ($isloggedin){
-          echo "Log out";
-        } else {
-          echo "Log in";
-        }
-      ?>
-      </a>
+      <a href="/users/<?=$log_url?>"><?=$log_text?></a>
 
-      <a href="/users/?mode=register">Register</a>
+      <!--
+      uncomment this if you want regular registering
+      <?=$register_link?>
+      -->
     
-      <div style="float: right;">
-        <a href="https://www.facebook.com/dialog/oauth?client_id=<?php echo FB_APP; ?>&redirect_uri=YOUR_APP_REDIRECT_URL&scope=publish_stream" title="Signup with facebook">
-          <button>Signup with facebook</button> 
-        </a>
-      </div>
+      <?=$register_fb_link?>
     </nav>
 
     <section style="text-align:center;">
-      <iframe src="/game.php" width="800" height="600" frameborder="0" scrolling="no" name="GreenDream">
-        Oh No. Your browser can't support iframes. Play the game <a href="http://www.<? echo DOMAIN; ?>"> here.</a>
+      <iframe src="/game/index.html" width="800" height="600" frameborder="0" scrolling="no" name="GreenDream">
+        Oh No. Your browser can't support iframes. Play the game <a href="http://www.<?=DOMAIN?>"> here.</a>
       </iframe>
     </section>
 
