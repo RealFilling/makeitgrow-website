@@ -1,111 +1,63 @@
 <?php
 require_once("config.php");
 require_once('libs/utils.lib.php');
-require_once('libs/persistence.lib.php');
+require_once('libs/facebook/facebook.php')
 
-/*
-check logged in
-if not logged in
-	check subdomain
-	if not www
-		if farm exists
-			ask for log in
-			redirect to its farm
-		else
-			redirect to www
-else
-	check subdomain
-	check if farm belongs to player
-		if it does
-			play
-		else
-			(redirect to its farm)
-endif
-*/
-$farmName = trim(strtolower(getSubdomain()));
-$isloggedin = 0;
+$facebook = new Facebook(array(
+            'appId' => $config["fb_app_id"],
+            'secret' => $config["fb_app_secret"],
+            'cookie' => true,
+        ));
 
-if (isset($_SESSION['user_id']))
-{
-	$isloggedin = $_SESSION['user_id'];
-	
-	$farmName = getSubdomain();
-	$id = farmExists($farmName);
+$congratulations = FALSE;
+// capture the $_REQUEST coming to this page and check if it's a new user
+check_registration($facebook,$config["fb_fields"]);
 
-	if ($id != $isloggedin)
-	{
-		$farmName = getFarm($isloggedin);
+$session = $facebook->getSession();
 
-		header( 'Location: http://' . $farmName . '.' . DOMAIN . '/');
-	}
+$me = null;
+// Session based API call.
+if ($session) {
+    try {
+        $uid = $facebook->getUser();
+        // We can use a Graph API call from the PHP-SDK
+        //$me = $facebook->api('/me');
+        // Or just use our Database!
+        $me = get_user_by_id($uid);
+    } catch (FacebookApiException $e) {
+        error_log($e);
+    }
 }
-else
-{
-	$sd = explode('.', DOMAIN);
-
-	if (($farmName != 'www') && ($farmName != $sd[0]))
-	{
-		$id = farmExists($farmName);
-		if ($id > 0)
-		{
-			header( 'Location: http://' . $farmName . '.' . DOMAIN. '/persistence');
-		}
-		else
-		{
-			header( 'Location: http://www.' . DOMAIN);
-		}
-	}
-}
-
 // Get some variables first, we don't want to mess up the HTML with lots of PHP
 // I'd definitely love a templating engine right now
 $title = "Make It Grow";
-if ($isloggedin)
+if ($me)
   $title = "".$farmName." Holistic Farm | ".$title;
 
 $description = " my holistic farm at Make It Grow!"
-if ($isloggedin)
+if ($me)
   $description = "Come visit".$description; 
 else
   $description = "Grow your own".$description;
 
-// Login/out messages and url
-$log_url = "";
-if ($isloggedin)
-  $log_url = '?mode=logout';
-
-$log_text = "Log ";
-if ($isloggedin)
-   $log_text .= "out";
-else
-   $log_text .= "in"
-
-// Register link
-if ($isloggedin)
-  $register_link = "";
-else
-  $register_link = '<a href="/users/?mode=register">Register</a>';
-
-// Register FB link
-if ($isloggedin)
-  $register_fb_link = "";
-else
-  $register_fb_link = '<div style="float: right;">
-          <a href="https://www.facebook.com/dialog/oauth?client_id='.FB_APP.'&redirect_uri='.FB_RETURN_URL.'" title="Signup with facebook">
-            <button>Signup with facebook</button>
-          </a>
-        </div>';
-
 // Twitter Message
-if ($isloggedin)
+if ($me)
   $twit_msg = "Come visit my holistic farm in";
 else
   $twit_msg = "Grow your own sustainable farm at";
 
+// login or logout url will be needed depending on current user state.
+if ($me) {
+    $logoutUrl = $facebook->getLogoutUrl();
+} else {
+    // we are not using this url in our example
+    $loginUrl = $facebook->getLoginUrl();
+}
+
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xml:lang="en" lang="en" version="-//W3C//DTD XHTML 1.1//EN" xmlns="http://www.w3.org/1999/xhtml" itemscope itemtype="http://schema.org/">
-  <head>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://www.facebook.com/2008/fbml">
+<head>
     <!-- Make sure to modify the Title and Description according to whether the user is
     logged in or not so the social sharing plugins work as expected -->
     <title><?=$title?></title>
@@ -114,7 +66,7 @@ else
     <meta name="robots" content="follow, all" />
     <meta name="language" content="en" />
     <meta name="description" content="<?=$description?>" />
-    
+
     <script type="text/javascript">
     //Social Sharing Analytics
       (function() {
@@ -123,24 +75,28 @@ else
       var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(dgh, s);
       })();
     </script>
+</head>
 
-  </head>
-  <body>
-    <nav>
-      <a href="/users/<?=$log_url?>"><?=$log_text?></a>
-
-      <!--
-      uncomment this if you want regular registering
-      <?=$register_link?>
-      -->
+<body>
     
-      <?=$register_fb_link?>
-    </nav>
-
+    <div class="login-status">
+        <?php if ($me): ?>
+        <div class="profile">
+            <img class="profile-img" src="https://graph.facebook.com/<?php echo $uid; ?>/picture" alt="" />
+            <span><?php echo $me['name']; ?></span>
+            <a href="<?php echo $logoutUrl; ?>">
+                <img src="http://static.ak.fbcdn.net/rsrc.php/z2Y31/hash/cxrz4k7j.gif" />
+            </a>
+        </div>
+        <?php else: ?>
+        <fb:login-button registration-url="<?php echo $config["base_url"]; ?>register.php" />
+        <?php endif ?>
+    </div>
+    
     <section style="text-align:center;">
-      <iframe src="/game/index.html" width="800" height="600" frameborder="0" scrolling="no" name="GreenDream">
-        Oh No. Your browser can't support iframes. Play the game <a href="http://www.<?=DOMAIN?>"> here.</a>
-      </iframe>
+        <iframe src="/game/index.html" width="800" height="600" frameborder="0" scrolling="no" name="GreenDream">
+            Oh No. Your browser can't support iframes. Play the game <a href="http://www.<?=DOMAIN?>/game/"> here.</a>
+        </iframe>
     </section>
 
     <!-- Start Shareaholic Sassy Bookmarks HTML-->
@@ -175,5 +131,31 @@ else
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
       })();
     </script>
-  </body>
+    
+    <div id="fb-root"></div>
+    <script type="text/javascript">
+        window.fbAsyncInit = function() {
+                FB.init({
+                        appId   : '<?php echo $facebook->getAppId(); ?>',
+                        session : <?php echo json_encode($session); ?>, // don't refetch the session when PHP already has it
+                        status  : true, // check login status
+                        cookie  : true, // enable cookies to allow the server to access the session
+                        xfbml   : true // parse XFBML
+                });
+
+                // whenever the user logs in, we refresh the page
+                FB.Event.subscribe('auth.login', function() {
+                        window.location.reload();
+                });
+        };
+
+        (function() {
+                var e = document.createElement('script');
+                e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
+                e.async = true;
+                document.getElementById('fb-root').appendChild(e);
+        }());
+    </script>
+</body>
+
 </html>
