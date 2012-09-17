@@ -1,5 +1,7 @@
 <?php
 require_once("config.php");
+require_once('libs/utils.lib.php');
+require_once('libs/persistence.lib.php');
 
 /*
 check logged in
@@ -56,6 +58,7 @@ else
 }
 
 // Get some variables first, we don't want to mess up the HTML with lots of PHP
+// I'd definitely love a templating engine right now
 $title = "Make It Grow";
 if ($isloggedin)
   $title = "".$farmName." Holistic Farm | ".$title;
@@ -92,6 +95,12 @@ else
             <button>Signup with facebook</button>
           </a>
         </div>';
+
+// Twitter Message
+if ($isloggedin)
+  $twit_msg = "Come visit my holistic farm in";
+else
+  $twit_msg = "Grow your own sustainable farm at";
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
@@ -140,12 +149,7 @@ else
 
     <!-- Start Shareaholic Sassy Bookmarks settings -->
     <script type="text/javascript">
-      var SHRSS_Settings = {"shr_ss":{"src":"//dtym7iokkjlif.cloudfront.net/media/downloads/sassybookmark","link":"","service":"5,7,2,313,38,201,88,74","apikey":"b87f5899d80a5edce8b5e55f58542ef0f","localize":true,"shortener":"bitly","shortener_key":"","designer_toolTips":true,"tip_bg_color":"black","tip_text_color":"white","viewport":true,"twitter_template":"<?php
-      if ($isloggedin)
-        echo "Come visit my holistic farm in";
-      else
-        echo "Grow your own sustainable farm at";
-      ?> Make It Grow - ${short_link} via @Shareaholic"}};
+      var SHRSS_Settings = {"shr_ss":{"src":"//dtym7iokkjlif.cloudfront.net/media/downloads/sassybookmark","link":"","service":"5,7,2,313,38,201,88,74","apikey":"b87f5899d80a5edce8b5e55f58542ef0f","localize":true,"shortener":"bitly","shortener_key":"","designer_toolTips":true,"tip_bg_color":"black","tip_text_color":"white","viewport":true,"twitter_template":"<?=$twit_msg?> Make It Grow - ${short_link} via @Shareaholic"}};
     </script>
     <!-- End Shareaholic Sassy Bookmarks settings -->
 

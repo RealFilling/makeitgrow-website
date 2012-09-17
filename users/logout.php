@@ -1,5 +1,5 @@
 <?php
-require_once("../config/index.php");
+require_once("../config.php");
 require_once('../libs/index.php');
 
 $_SESSION['user_id'] = 0;

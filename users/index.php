@@ -1,5 +1,5 @@
 <?php
-require_once("../config/index.php");
+require_once("../config.php");
 require_once('../libs/index.php');
 
 $relocateURL = "http://www.".DOMAIN."/index.php";
