@@ -33,8 +33,6 @@ $config["fb_fields"] = array(
     	array("name" => "name")
     ,	array("name" => "email")
     ,   array("name" => "farmname", "description" => "How will you call your farm?", "type" => "text")
-    //,	array("name" => "gender")
-    //,	array("name" => "birthday")
 );
 
 $facebook = new Facebook($config);
