@@ -1,6 +1,5 @@
 <?php
-require_once('settings.php');
-global $_THEDOMAIN;
+
 
 function printData($status, $data)
 {
@@ -17,7 +16,8 @@ $output = "{
 function getUserId($name, $password)
 {
 	global $db;
-	$query = "SELECT user_id FROM game_users WHERE name='$name' AND password='$password'";
+	$password = md5($password)
+	$query = "SELECT user_id FROM game_users WHERE username='$name' AND password='$password'";
 	$result = $db->query($query);
 	$row = $result->fetch_assoc();	
 	return $row['user_id'];
@@ -46,8 +46,8 @@ function saveSavegame($id, $data)
 function registerUser($name, $password, $email, $farm)
 {
 	global $db;
-	
-	$query = "INSERT INTO `game_users`(`name`, `password`, `email`, `farm`, `date`) VALUES ('$name', '$password', '$email', '$farm', NOW())";
+	$password = md5($password);
+	$query = "INSERT INTO `game_users`(`username`, `password`, `email`, `farm`, `date`) VALUES ('$name', '$password', '$email', '$farm', NOW())";
 	$result = $db->query($query);
 
 	return $db->insert_id;
@@ -57,7 +57,7 @@ function registerUser($name, $password, $email, $farm)
 function userExists($name)
 {
 	global $db;
-	$query = "SELECT user_id FROM game_users WHERE name='$name' LIMIT 1";
+	$query = "SELECT user_id FROM game_users WHERE username='$name' LIMIT 1";
 	$result = $db->query($query);
 	$row = $result->fetch_assoc();	
 	return $row['user_id'];
@@ -88,8 +88,8 @@ function filterInput($input)
 
 function sendMail($to, $subject, $message)
 {
-	global $_THEDOMAIN;
-	$headers = "From: contact@$_THEDOMAIN\r\n" .
+	
+	$headers = "From: contact@DOMAIN\r\n" .
 				"X-Mailer: php";
 	$res = mail($to , $subject , $message, $headers);
 
@@ -105,10 +105,10 @@ function sendMail($to, $subject, $message)
 function getUser($userid)
 {
 	global $db;
-	$query = "SELECT name FROM game_users WHERE user_id='$userid' LIMIT 1";
+	$query = "SELECT username FROM game_users WHERE user_id='$userid' LIMIT 1";
 	$result = $db->query($query);
 	$row = $result->fetch_assoc();	
-	return $row['name'];	
+	return $row['username'];	
 }
 
 function getFarm($userid)

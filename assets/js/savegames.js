@@ -4,7 +4,7 @@ function load()
 	dataStatus = 0;
 	$.ajaxSetup({async:false});
 	
-	var jqxhr = $.post('/persistence/load.php', function(data) {
+	var jqxhr = $.post('/users/load.php', function(data) {
 		response = jQuery.parseJSON(data);
 		if (response.result.status == 'ok')
 		{
@@ -32,7 +32,7 @@ function save(saveData)
 	dataStatus = 0;
 	$.ajaxSetup({async:false});
 	
-	var jqxhr = $.post('/persistence/save.php', { data: saveDataFinal}, function(data) {
+	var jqxhr = $.post('/users/save.php', { data: saveDataFinal}, function(data) {
 		response = jQuery.parseJSON(data);
 		if (response.result.status == 'ok')
 		{
@@ -77,7 +77,7 @@ var isLogged = 0;
 function checkLoggedIn()
 {
 	isLogged = 0;
-	var jqxhr = $.post('/persistence/isloggedin.php', function(data) {
+	var jqxhr = $.post('/users/isloggedin.php', function(data) {
 		console.log(data);
 		response = jQuery.parseJSON(data);
 		if (response.result.status == 'ok')

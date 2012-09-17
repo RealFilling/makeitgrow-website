@@ -1,7 +1,6 @@
 <?php
-require_once('session.php');
-require_once('database.php');
-require_once('functions.php');
+require_once("../config/index.php");
+require_once('../libs/index.php');
 
 if (isset($_REQUEST['login']))
 {

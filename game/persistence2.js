@@ -96,7 +96,7 @@ function prepareDialogs(mode)
 			},
 		buttons: {
 			Ok: function() {
-				window.location = "/persistence/logout.php";
+				window.location = "/users/logout.php";
 			},
 			Cancel: function() {
 				$('#logout').dialog( "close" );
@@ -219,7 +219,7 @@ function loginSubmit()
 	if (!error)
 	{
 		// submit
-		var jqxhr = $.post('/persistence/login.php', { name: name, password: password, login: 1}, function(data) {
+		var jqxhr = $.post('/users/login.php', { name: name, password: password, login: 1}, function(data) {
 			console.log(data);
 			response = jQuery.parseJSON(data);
 			if (response.result.status == 'ok')
@@ -321,7 +321,7 @@ function registrationSubmit()
 	{
 		//alert("submit!");
 		// submit
-		var jqxhr = $.post('/persistence/register.php', { data: finalData, name: name, password: password, farm: farm, email: email, register: 1}, function(data) {
+		var jqxhr = $.post('/users/register.php', { data: finalData, name: name, password: password, farm: farm, email: email, register: 1}, function(data) {
 			console.log(data);
 			response = jQuery.parseJSON(data);
 			if (response.result.status == 'ok')
@@ -356,7 +356,7 @@ function verifyName()
 	}
 	checkUserNameCall = $.ajax({
 			type		: "POST",
-			url			: "/persistence/verifyusername.php",
+			url			: "/users/verifyusername.php",
 			data		: "name=" + name,
 			dataType	: "html",
 			success: function( data ){
@@ -388,7 +388,7 @@ function verifyFarmName()
 	}
 	checkFarmNameCall = $.ajax({
 			type		: "POST",
-			url			: "/persistence/verifyfarmname.php",
+			url			: "/users/verifyfarmname.php",
 			data		: "name=" + name,
 			dataType	: "html",
 			success: function( data ){

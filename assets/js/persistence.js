@@ -3,21 +3,17 @@ function gd_set_delay(ms)
 
 }
 
-function gd_set_logged_in(data)
-{
-
-}
-
 function initGame()
 {
 	//prepareDialogs();
 }
 
 var shouldRedirect = true;
-
+var redirectURL = 'http://www.makeitgrowgame.com';
 function prepareDialogs(mode)
 {
-	$('#userName').keyup(verifyName);
+	//$('#userName').keyup(verifyName);
+	$('#emailName').keyup(verifyMail);
 	$('#farmName').keyup(verifyFarmName);
 
 	 $('#login').dialog({
@@ -30,13 +26,13 @@ function prepareDialogs(mode)
 		close: function() {
 				if (shouldRedirect)
 				{
-					window.location="/index.php";
+					window.location = redirectURL;
 				}
 			},
 		buttons: {
 			Cancel: function() {
 				$('#login').dialog( "close" );
-				window.location="/index.php";
+				window.location = redirectURL;
 			}
 		}
 		});
@@ -52,13 +48,13 @@ function prepareDialogs(mode)
 		close: function() {
 				if (shouldRedirect)
 				{
-					window.location="/index.php";
+					window.location = redirectURL;
 				}
 			},
 		buttons: {
 			Cancel: function() {
 				$('#registration').dialog( "close" );
-				window.location="/index.php";
+				window.location = redirectURL;
 			}
 		}
 		});
@@ -74,13 +70,13 @@ function prepareDialogs(mode)
 		close: function() {
 				if (shouldRedirect)
 				{
-					window.location="/index.php";
+					window.location = redirectURL;
 				}
 			},
 		buttons: {
 			Cancel: function() {
 				$('#forgot').dialog( "close" );
-				window.location="/index.php";
+				window.location = redirectURL;
 			}
 		}
 		});
@@ -96,21 +92,64 @@ function prepareDialogs(mode)
 		close: function() {
 				if (shouldRedirect)
 				{
-					window.location="/index.php";
+					window.location = redirectURL;
 				}
 			},
 		buttons: {
 			Ok: function() {
-				window.location = "/persistence/logout.php";
+				window.location = "/users/logout.php";
 			},
 			Cancel: function() {
 				$('#logout').dialog( "close" );
-				window.location="/index.php";
+				window.location = redirectURL;
 			}
 		}
 		});
 		$('#logout').css({'visibility': 'visible'});
+	
+	$('#welcome').dialog({
+		autoOpen: false,
+		modal: true,
+		draggable: false,
+		resizable: false,
+		width: 400,
+		height: 300,
+		close: function() {
+				if (shouldRedirect)
+				{
+					window.location = redirectURL;
+				}
+			},
+		buttons: {
+			Play: function() {
+				window.location = redirectURL;
+			},
+		}
+		});
+		$('#welcome').css({'visibility': 'visible'});
 		
+		
+	$('#forgotconfirmation').dialog({
+		autoOpen: false,
+		modal: true,
+		draggable: false,
+		resizable: false,
+		width: 400,
+		height: 300,
+		close: function() {
+				if (shouldRedirect)
+				{
+					window.location = redirectURL;
+				}
+			},
+		buttons: {
+			Ok: function() {
+				window.location = redirectURL;
+			},
+		}
+		});
+		$('#forgotconfirmation').css({'visibility': 'visible'});
+	
 	//loadGame();
 	if (mode == 'register')
 	{
@@ -143,6 +182,9 @@ function closeDialogs()
 	$('#registration').dialog( "close" );
 	$('#forgot').dialog( "close" );
 	$('#logout').dialog( "close" );
+	$('#welcome').dialog( "close" );
+	$('#forgotconfirmation').dialog( "close" );
+	
 	shouldRedirect = true;
 }
 
@@ -185,6 +227,13 @@ function showForgot()
 	$('.ui-widget-overlay').css({'height':'100%'});
 }
 
+function showForgotConfirmation()
+{
+	closeDialogs();
+	$('#forgotconfirmation').dialog('open');
+	$('.ui-widget-overlay').css({'height':'100%'});
+}
+
 function showLogOut()
 {
 	closeDialogs();
@@ -192,7 +241,12 @@ function showLogOut()
 	$('.ui-widget-overlay').css({'height':'100%'});
 }
 
-
+function showWelcome()
+{
+	closeDialogs();
+	$('#welcome').dialog('open');
+	$('.ui-widget-overlay').css({'height':'100%'});
+}
 
 function logout()
 {
@@ -224,7 +278,7 @@ function loginSubmit()
 	if (!error)
 	{
 		// submit
-		var jqxhr = $.post('/persistence/login.php', { name: name, password: password, login: 1}, function(data) {
+		var jqxhr = $.post('/users/login.php', { name: name, password: password, login: 1}, function(data) {
 			console.log(data);
 			response = jQuery.parseJSON(data);
 			if (response.result.status == 'ok')
@@ -326,7 +380,7 @@ function registrationSubmit()
 	{
 		//alert("submit!");
 		// submit
-		var jqxhr = $.post('/persistence/register.php', { name: name, password: password, farm: farm, email: email, register: 1}, function(data) {
+		var jqxhr = $.post('/users/register.php', { name: name, password: password, farm: farm, email: email, register: 1}, function(data) {
 			console.log(data);
 			response = jQuery.parseJSON(data);
 			if (response.result.status == 'ok')
@@ -334,7 +388,10 @@ function registrationSubmit()
 				dataReady = true;
 				finalData = response.result.data;
 				closeDialogs();
+				shouldRedirect = false;
 				$('#registration').dialog( "close" );
+				shouldRedirect = true;
+				showWelcome();
 			}
 			else
 			{
@@ -345,6 +402,48 @@ function registrationSubmit()
 		})
 	}
 }
+
+function forgotSubmit()
+{
+	$('#forgotformerror').text("");
+
+	farm = $.trim($('#forgotform').find( 'input[name="farm"]' ).val());
+	email = $.trim($('#forgotform').find( 'input[name="email"]' ).val());
+	
+	error = false;
+	if ((farm == "") && (email == ""))
+	{
+		error = true;
+		$('#forgotformerror').text("Enter your farm name or e-mail");
+	}
+	
+	if (!error)
+	{
+		// submit
+		var jqxhr = $.post('/users/forgot.php', { farm: farm, email: email, forgot: 1}, function(data) {
+			response = jQuery.parseJSON(data);
+			if (response.result.status == 'ok')
+			{
+				dataReady = true;
+				dataStatus = 1;
+				finalData = response.result.data;
+				closeDialogs();
+				shouldRedirect = false;
+				$('#forgotform').dialog( "close" );
+				shouldRedirect = true;
+				showForgotConfirmation();
+				
+			}
+			else
+			{
+				$('#forgotform').find('input[name="farm"]').val('');
+				$('#forgotform').find('input[name="email"]').val('');
+				$('#forgotformerror').text("Farm name or e-mail invalid");
+			}
+		})
+	}
+}
+
 
 var checkUserNameCall;
 function verifyName()
@@ -361,7 +460,7 @@ function verifyName()
 	}
 	checkUserNameCall = $.ajax({
 			type		: "POST",
-			url			: "/persistence/verifyusername.php",
+			url			: "/users/verifyusername.php",
 			data		: "name=" + name,
 			dataType	: "html",
 			success: function( data ){
@@ -393,7 +492,7 @@ function verifyFarmName()
 	}
 	checkFarmNameCall = $.ajax({
 			type		: "POST",
-			url			: "/persistence/verifyfarmname.php",
+			url			: "/users/verifyfarmname.php",
 			data		: "name=" + name,
 			dataType	: "html",
 			success: function( data ){
@@ -409,7 +508,37 @@ function verifyFarmName()
 		});
 }
 
+var checkMailCall = null;
+function verifyMail()
+{
+	name = $.trim($('#registrationform').find( 'input[name="email"]' ).val());
 
+	if (name.length < 3)
+	{
+		return;
+	}
+	
+	if (checkMailCall != null)
+	{
+		checkMailCall.abort();
+	}
+	checkMailCall = $.ajax({
+			type		: "POST",
+			url			: "/users/verifymail.php",
+			data		: "name=" + name,
+			dataType	: "html",
+			success: function( data ){
+				if (data == "OK")
+				{
+					$('#registrationformemailerror').text("");
+				}
+				else
+				{
+					$('#registrationformemailerror').text("e-mail taken");				
+				}
+			}
+		});
+}
 
 /*
 

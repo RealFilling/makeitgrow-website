@@ -1,12 +1,8 @@
 <?php
+require_once("../config/index.php");
+require_once('../libs/index.php');
 
-require_once('session.php');
-require_once('database.php');
-require_once('functions.php');
-require_once('settings.php');
-global $_THEDOMAIN;
-
-$relocateURL = "http://www.$_THEDOMAIN/index.php";
+$relocateURL = "http://www.".DOMAIN."/index.php";
 
 $mode = '';
 
@@ -39,7 +35,7 @@ if (isset($_REQUEST['cancel']))
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 		<meta charset="utf-8"/>
 		<title>Log in into the Green Dream</title>
-		<link type="text/css" href="/persistence/css/ui-lightness/jquery-ui-1.8.21.custom.css" rel="Stylesheet" />
+		<link type="text/css" href="/assets/css/ui-lightness/jquery-ui-1.8.21.custom.css" rel="Stylesheet" />
 		<style>
 			.errorMessage {
 				color: red;
@@ -49,9 +45,9 @@ if (isset($_REQUEST['cancel']))
 			#forgot { font-size: 64%; }
 			h1 { font-size: 1.2em; margin: .6em 0; }			
 		</style>
-		<script type="text/javascript" src="/persistence/js/jquery-1.7.2.js"></script>
-		<script type="text/javascript" src="/persistence/js/jquery-ui-1.8.21.custom.min.js"></script>
-		<script type="text/javascript" src="/persistence/persistence.js"></script>
+		<script type="text/javascript" src="/assets/js/jquery-1.7.2.js"></script>
+		<script type="text/javascript" src="/assets/js/jquery-ui-1.8.21.custom.min.js"></script>
+		<script type="text/javascript" src="/assets/js/persistence.js"></script>
 	</head>
 	<body onload="javascript:prepareDialogs('<?php 
 		$mode = '';
@@ -70,7 +66,7 @@ if (isset($_REQUEST['cancel']))
 		}
 	?>');">
 		<!-- input type="button" value="logout" onclick="javascript:logout()" -->
-		<div id="login" style=visibility:hidden;" title="Login">
+		<div id="login" style="visibility:hidden;" title="Login">
 			<form id="loginform" method="POST" action="javascript:loginSubmit();">
 				<table>
 				<tr>
@@ -93,7 +89,7 @@ if (isset($_REQUEST['cancel']))
 			</form>
 			<a href="#" onclick="javascript:showRegistration();">Register</a> - <a href="#" onclick="javascript:showForgot();">Forgot password?</a>
 		</div>
-		<div id="registration" style=visibility:hidden;" title="Register">
+		<div id="registration" style="visibility:hidden;" title="Register">
 			<form id="registrationform" method="POST" action="javascript:registrationSubmit();">
 				<table>
 				<tr>
@@ -131,7 +127,7 @@ if (isset($_REQUEST['cancel']))
 			</form>
 			<a href="#" onclick="javascript:showLogin();">Log in</a> - <a href="#" onclick="javascript:showForgot();">Forgot password?</a>
 		</div>
-		<div id="forgot" style=visibility:hidden;" title="Forgot your password?">
+		<div id="forgot" style="visibility:hidden;" title="Forgot your password?">
 			<form id="forgotform" method="POST" action="javascript:forgotSubmit();">
 				<table>
 				<tr>
@@ -158,14 +154,14 @@ if (isset($_REQUEST['cancel']))
 			</form>
 			<a href="#" onclick="javascript:showLogin();">Log in</a> - <a href="#" onclick="javascript:showRegistration();">Register</a>
 		</div>
-		<div id="forgotconfirmation" style=visibility:hidden;" title="Forgot your password?">
+		<div id="forgotconfirmation" style="visibility:hidden;" title="Forgot your password?">
 				<table>
 				<tr>
 					<td>The password has been sent to your e-mail</td>
 				</tr>
 			</table>
 		</div>
-		<div id="logout" style=visibility:hidden;" title="Log out">
+		<div id="logout" style="visibility:hidden;" title="Log out">
 			<form method="POST">
 				<table>
 				<tr>
@@ -174,7 +170,7 @@ if (isset($_REQUEST['cancel']))
 			</table>
 			</form>
 		</div>
-		<div id="welcome" style=visibility:hidden;" title="Welcome!">
+		<div id="welcome" style="visibility:hidden;" title="Welcome!">
 				<table>
 				<tr>
 					<td>Welcome to The Green Dream</td>
