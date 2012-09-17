@@ -1,7 +1,7 @@
 <?php
-require_once("config.php");
-require_once('libs/utils.lib.php');
-require_once('libs/facebook/facebook.php')
+require 'config.php';
+require 'libs/utils.lib.php';
+require 'libs/facebook/facebook.php';
 
 $facebook = new Facebook(array(
             'appId' => $config["fb_app_id"],
