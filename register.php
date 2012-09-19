@@ -11,7 +11,7 @@
         <script type="text/javascript">
             window.fbAsyncInit = function() {
                 FB.init({
-                    appId   : '<?php echo $config["fb_app_id"]; ?>',
+                    appId   : '<?php echo $config["appId"]; ?>',
                     status  : true,
                     cookie  : true,
                     xfbml   : true

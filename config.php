@@ -30,13 +30,11 @@ session_start();
 require_once("libs/facebook/facebook.php");
 
 $config = array();
-$config["fb_app_id"] = FB_APPID;
-$config["fb_app_secret"] = FB_SECRET;
+$config["appId"] = FB_APPID;
+$config["secret"] = FB_SECRET;
 $config["base_url"] = FB_REDIRECT;
 $config["fb_fields"] = array(
     	array("name" => "name")
     ,	array("name" => "email")
     ,   array("name" => "farmname", "description" => "How will you call your farm?", "type" => "text")
 );
-
-$facebook = new Facebook($config);

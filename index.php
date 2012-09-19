@@ -1,40 +1,27 @@
 <?php
 require 'config.php';
+require 'functions.php';
 require 'libs/utils.lib.php';
-require 'libs/facebook/facebook.php';
 
 $facebook = new Facebook(array(
-            'appId' => $config["fb_app_id"],
-            'secret' => $config["fb_app_secret"],
-            'cookie' => true,
+            'appId' => $config["appId"],
+            'secret' => $config["secret"],
         ));
 
 $congratulations = FALSE;
 // capture the $_REQUEST coming to this page and check if it's a new user
 check_registration($facebook,$config["fb_fields"]);
 
-$session = $facebook->getSession();
+$me = $facebook->getUser();
 
-$me = null;
-// Session based API call.
-if ($session) {
-    try {
-        $uid = $facebook->getUser();
-        // We can use a Graph API call from the PHP-SDK
-        //$me = $facebook->api('/me');
-        // Or just use our Database!
-        $me = get_user_by_id($uid);
-    } catch (FacebookApiException $e) {
-        error_log($e);
-    }
-}
 // Get some variables first, we don't want to mess up the HTML with lots of PHP
 // I'd definitely love a templating engine right now
 $title = "Make It Grow";
 if ($me)
   $title = "".$farmName." Holistic Farm | ".$title;
 
-$description = " my holistic farm at Make It Grow!"
+$description = " my holistic farm at Make It Grow!";
+
 if ($me)
   $description = "Come visit".$description; 
 else
@@ -80,17 +67,7 @@ if ($me) {
 <body>
     
     <div class="login-status">
-        <?php if ($me): ?>
-        <div class="profile">
-            <img class="profile-img" src="https://graph.facebook.com/<?php echo $uid; ?>/picture" alt="" />
-            <span><?php echo $me['name']; ?></span>
-            <a href="<?php echo $logoutUrl; ?>">
-                <img src="http://static.ak.fbcdn.net/rsrc.php/z2Y31/hash/cxrz4k7j.gif" />
-            </a>
-        </div>
-        <?php else: ?>
-        <fb:login-button registration-url="<?php echo $config["base_url"]; ?>register.php" />
-        <?php endif ?>
+        
     </div>
     
     <section style="text-align:center;">
@@ -137,10 +114,10 @@ if ($me) {
         window.fbAsyncInit = function() {
                 FB.init({
                         appId   : '<?php echo $facebook->getAppId(); ?>',
-                        session : <?php echo json_encode($session); ?>, // don't refetch the session when PHP already has it
                         status  : true, // check login status
                         cookie  : true, // enable cookies to allow the server to access the session
-                        xfbml   : true // parse XFBML
+                        xfbml   : true, // parse XFBML
+                        oauth   : true
                 });
 
                 // whenever the user logs in, we refresh the page
