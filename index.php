@@ -67,7 +67,17 @@ if ($me) {
 <body>
     
     <div class="login-status">
-        
+        <?php if ($me): ?>
+        <div class="profile">
+            <img class="profile-img" src="https://graph.facebook.com/<?php echo $uid; ?>/picture" alt="" />
+            <span><?php echo $me['name']; ?></span>
+            <a href="<?php echo $logoutUrl; ?>">
+                <img src="http://static.ak.fbcdn.net/rsrc.php/z2Y31/hash/cxrz4k7j.gif" />
+            </a>
+        </div>
+        <?php else: ?>
+        <fb:login-button registration-url="<?php echo $config["base_url"]; ?>/register.php" />
+        <?php endif ?>
     </div>
     
     <section style="text-align:center;">
@@ -117,7 +127,7 @@ if ($me) {
                         status  : true, // check login status
                         cookie  : true, // enable cookies to allow the server to access the session
                         xfbml   : true, // parse XFBML
-                        oauth   : true
+                        session : {}
                 });
 
                 // whenever the user logs in, we refresh the page

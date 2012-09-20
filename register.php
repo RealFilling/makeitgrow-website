@@ -12,10 +12,12 @@
             window.fbAsyncInit = function() {
                 FB.init({
                     appId   : '<?php echo $config["appId"]; ?>',
+                    session : {},
                     status  : true,
                     cookie  : true,
                     xfbml   : true
                 });
+
                 FB.getLoginStatus(function(response) {
                     if (response.status == "connected" || response.status == "unknown") {
                         window.location = "<?php echo $config["base_url"]; ?>";
