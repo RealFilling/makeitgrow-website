@@ -1,6 +1,6 @@
 <?php
 require 'config.php';
-require 'functions.php';
+require 'libs/persistance.lib.php';
 require 'libs/utils.lib.php';
 
 $facebook = new Facebook(array(
@@ -14,27 +14,45 @@ check_registration($facebook,$config["fb_fields"]);
 
 $me = $facebook->getUser();
 
+if ($me != 0)
+  $profile = get_user_by_id($me);
+
+  if ($profile == false) {
+    try {
+      $profile = $facebook->api('/me','GET');
+  
+    }
+    catch(FacebookApiException $e) {
+      $login_url = $facebook->getLoginUrl(); 
+      $me = 0;
+      error_log($e->getType());
+      error_log($e->getMessage());
+    }
+  }
+
 // Get some variables first, we don't want to mess up the HTML with lots of PHP
 // I'd definitely love a templating engine right now
+$farmName = ""; //Get this from the DB
+
 $title = "Make It Grow";
-if ($me)
+if ($me != 0)
   $title = "".$farmName." Holistic Farm | ".$title;
 
 $description = " my holistic farm at Make It Grow!";
 
-if ($me)
+if ($me != 0)
   $description = "Come visit".$description; 
 else
   $description = "Grow your own".$description;
 
 // Twitter Message
-if ($me)
+if ($me != 0)
   $twit_msg = "Come visit my holistic farm in";
 else
   $twit_msg = "Grow your own sustainable farm at";
 
 // login or logout url will be needed depending on current user state.
-if ($me) {
+if ($me != 0) {
     $logoutUrl = $facebook->getLogoutUrl();
 } else {
     // we are not using this url in our example
@@ -54,6 +72,10 @@ if ($me) {
     <meta name="language" content="en" />
     <meta name="description" content="<?=$description?>" />
 
+    <link href="assets/css/bootstrap.css" rel="stylesheet">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js" type="text/javascript"></script>    
+    <script src="assets/js/libs/bootstrap-dropdown.js" type="text/javascript"></script>
+
     <script type="text/javascript">
     //Social Sharing Analytics
       (function() {
@@ -66,24 +88,32 @@ if ($me) {
 
 <body>
     
-    <div class="login-status">
-        <?php if ($me): ?>
-        <div class="profile">
-            <img class="profile-img" src="https://graph.facebook.com/<?php echo $uid; ?>/picture" alt="" />
-            <span><?php echo $me['name']; ?></span>
-            <a href="<?php echo $logoutUrl; ?>">
-                <img src="http://static.ak.fbcdn.net/rsrc.php/z2Y31/hash/cxrz4k7j.gif" />
-            </a>
-        </div>
-        <?php else: ?>
+    <div class="login-status" style="position: fixed;">
+      <?php if ($me != 0): ?>
+        <div class="btn-group">
+          <button class="btn btn-info">
+            <img class="profile-img" src="https://graph.facebook.com/<?php echo $me; ?>/picture" alt="" width="32px" height="32px" />
+            <span><?php echo $profile['name']; ?></span>
+          </button>
+          <button class="btn btn-info dropdown-toggle" style="padding: 10px;" data-toggle="dropdown"><span class="caret"></span></button>
+          <ul class="dropdown-menu">
+            <li><a href="#">Save</a></li>
+            <li><a href="#">Share</a></li>
+            <li class="divider"></li>
+            <li><a href="<?php echo $logoutUrl; ?>"> Logout </a></li>
+          </ul>
+        </div>   
+      <?php else: ?>
         <fb:login-button registration-url="<?php echo $config["base_url"]; ?>/register.php" />
-        <?php endif ?>
+      <?php endif ?>
     </div>
     
     <section style="text-align:center;">
+      <!--
         <iframe src="/game/index.html" width="800" height="600" frameborder="0" scrolling="no" name="GreenDream">
             Oh No. Your browser can't support iframes. Play the game <a href="http://www.<?=DOMAIN?>/game/"> here.</a>
         </iframe>
+      -->
     </section>
 
     <!-- Start Shareaholic Sassy Bookmarks HTML-->
@@ -127,7 +157,8 @@ if ($me) {
                         status  : true, // check login status
                         cookie  : true, // enable cookies to allow the server to access the session
                         xfbml   : true, // parse XFBML
-                        session : {}
+                        session : {},
+                        oauth   : true
                 });
 
                 // whenever the user logs in, we refresh the page
