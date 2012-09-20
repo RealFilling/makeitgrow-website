@@ -1,15 +1,4 @@
 <?php
-require_once 'config.php';
-
-function retrieve_fields($sf) {
-
-    return json_encode($sf);
-}
-
-function verify_fields($f,$sf) {
-    $fields = json_encode($sf);
-    return (strcmp($fields,$f) === 0);
-}
 
 function register_user($resp) {
     extract($resp["registration"],EXTR_PREFIX_ALL, "fb");
@@ -20,7 +9,7 @@ function register_user($resp) {
     $fb_name = mysql_real_escape_string($fb_name);
     $fb_farmname = mysql_real_escape_string($fb_farmname);
 
-    $query_str = "INSERT INTO users VALUES (NULL, '$fb_id', '$fb_name', '$fb_email', '$fb_farmname') ON DUPLICATE KEY UPDATE fb_id=fb_id";
+    $query_str = "INSERT INTO game_users VALUES (NULL, '$fb_id', '$fb_name', '$fb_email', '$fb_farmname') ON DUPLICATE KEY UPDATE fb_id=fb_id";
     mysql_query($query_str);
 }
 
@@ -41,10 +30,11 @@ function check_registration($fb, $fb_fields) {
 }
 
 function get_user_by_id($id) {
-    $res = mysql_query("SELECT * FROM users WHERE fb_id = '$id'");
+    $res = mysql_query("SELECT * FROM game_users WHERE fb_id = '$id'");
     if($res) {
         $row = mysql_fetch_array($res);
         return $row;
-    } else
+    } else {
         return FALSE;
+    }
 }
