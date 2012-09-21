@@ -17,7 +17,7 @@ $congratulations = false;
 if ($_REQUEST) {
   echo '<p>signed_request contents:</p>';
   $response = parse_signed_request($_REQUEST['signed_request'], 
-                                   FACEBOOK_SECRET);
+                                   $config["secret"]);
   echo '<pre>';
   print_r($response);
   echo '</pre>';
