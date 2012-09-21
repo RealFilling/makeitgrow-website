@@ -1,34 +1,45 @@
 <?php
 require 'config.php';
-require 'libs/persistance.lib.php';
 require 'libs/utils.lib.php';
+require 'libs/persistance.lib.php';
 
 $facebook = new Facebook(array(
             'appId' => $config["appId"],
             'secret' => $config["secret"],
         ));
 
-$congratulations = FALSE;
+$congratulations = false;
+
+// Begin checking registration
 // capture the $_REQUEST coming to this page and check if it's a new user
-check_registration($facebook,$config["fb_fields"]);
+//check_registration($facebook,$config["fb_fields"]);
+// dump
+if ($_REQUEST) {
+  echo '<p>signed_request contents:</p>';
+  $response = parse_signed_request($_REQUEST['signed_request'], 
+                                   FACEBOOK_SECRET);
+  echo '<pre>';
+  print_r($response);
+  echo '</pre>';
+} else {
+  echo '$_REQUEST is empty';
+}
 
 $me = $facebook->getUser();
 
 if ($me != 0)
-  $profile = get_user_by_id($me);
-
-  if ($profile == false) {
-    try {
-      $profile = $facebook->api('/me','GET');
+{
+  try {
+    $profile = $facebook->api('/me','GET');
   
-    }
-    catch(FacebookApiException $e) {
-      $login_url = $facebook->getLoginUrl(); 
-      $me = 0;
-      error_log($e->getType());
-      error_log($e->getMessage());
-    }
   }
+  catch(FacebookApiException $e) {
+    $login_url = $facebook->getLoginUrl(); 
+    $me = 0;
+    error_log($e->getType());
+    error_log($e->getMessage());
+  }
+}
 
 // Get some variables first, we don't want to mess up the HTML with lots of PHP
 // I'd definitely love a templating engine right now
