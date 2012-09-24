@@ -10,7 +10,7 @@
 
 		<!-- Set the title bar of the page -->
 		<title>Make it Grow</title>
-		<link type="text/css" href="../assets/css/ui-lightness/jquery-ui-1.8.21.custom.css" rel="Stylesheet" />
+		<link type="text/css" href="/persistence/css/ui-lightness/jquery-ui-1.8.21.custom.css" rel="Stylesheet" />
 		<style>
 			.errorMessage {
 				color: red;
@@ -32,10 +32,10 @@
 				-webkit-interpolation-mode: nearest-neighbor;
 			}
 		</style>
-		<!--script type="text/javascript" src="/assets/js/jquery-1.7.2.js"></script>
-		<script type="text/javascript" src="/assets/js/jquery-ui-1.8.21.custom.min.js"></script>
-		<script type="text/javascript" src="/users/persistence.js"></script>
-		<script type="text/javascript" src="/users/savegames.js"></script-->
+		<!--script type="text/javascript" src="/persistence/js/jquery-1.7.2.js"></script>
+		<script type="text/javascript" src="/persistence/js/jquery-ui-1.8.21.custom.min.js"></script>
+		<script type="text/javascript" src="/persistence/persistence.js"></script>
+		<script type="text/javascript" src="/persistence/savegames.js"></script-->
 		<script type="text/javascript">
 
 			var _gaq = _gaq || [];
@@ -73,6 +73,6 @@
 		<!--input type="button" value="logout" onclick="javascript:logout()" -->
 
 		<!-- Run the game code -->
-		<script type="text/javascript" src="agrigame1-98.js?BDRAC=1479659675"></script>
+		<script type="text/javascript" src="/html5game/agrigame1-98.js?BDRAC=1479659675"></script>
 	</body>
 </html>

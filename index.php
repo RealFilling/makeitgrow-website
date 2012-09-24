@@ -117,7 +117,7 @@ if ($me != 0) {
     </div>
     
     <section style="text-align:center;">
-        <iframe src="/game/index.html" width="800" height="600" frameborder="0" scrolling="no" name="GreenDream">
+        <iframe src="game.php" width="800" height="600" frameborder="0" scrolling="no" name="GreenDream">
             Oh No. Your browser can't support iframes. Play the game <a href="http://www.<?=DOMAIN?>/game/"> here.</a>
         </iframe>
     </section>
