@@ -5,22 +5,18 @@ require 'libs/persistance.lib.php';
 
 $facebook = new Facebook(array(
             'appId' => $config["appId"],
-            'secret' => $config["secret"]
+            'secret' => $config["secret"],
+            'cookie' => true,
+            'status' => true,
+            'oauth' => true
         ));
 
-// Repopulate _REQUEST ... Facebook needs it.
-$request_uri = $_SERVER['REQUEST_URI'];
-$request_uri = explode('?',$request_uri);
-if(count($request_uri) > 1) {
-    parse_str($request_uri[1], $_REQUEST);
-}
-
 // Begin checking registration
-$me = $facebook->getUser();
+try {
+  $me = $facebook->getUser();
 
-if ($me != 0)
-{
-  try {
+  if ($me != 0)
+  {
     $profile = get_user_by_id($me);
 
     if($profile == false)
@@ -30,14 +26,14 @@ if ($me != 0)
       $profile["farm"] = $request["registration"]["farmname"];
       $profile = register_user($profile);
     }
-    
   }
-  catch(FacebookApiException $e) {
-    $loginUrl = $facebook->getLoginUrl();
-    $me = 0;
-    error_log($e->getType());
-    error_log($e->getMessage());
-  }
+
+}
+catch(FacebookApiException $e) {
+  $loginUrl = $facebook->getLoginUrl();
+  $me = 0;
+  error_log($e->getType());
+  error_log($e->getMessage());
 }
 
 // Get some variables first, we don't want to mess up the HTML with lots of PHP
@@ -62,12 +58,14 @@ else
 
 // login or logout url will be needed depending on current user state.
 if ($me != 0) {
-    $logoutUrl = $facebook->getLogoutUrl();
+  $logoutUrl = $facebook->getLogoutUrl();
+} else {
+  $loginUrl = $facebook->getLoginUrl();
 }
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://www.facebook.com/2008/fbml">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://ogp.me/ns/fb#">
 <head>
     <!-- Make sure to modify the Title and Description according to whether the user is
     logged in or not so the social sharing plugins work as expected -->
@@ -94,8 +92,36 @@ if ($me != 0) {
 </head>
 
 <body>
+    <div id="fb-root"></div>
+    <script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId      : '<?php echo $facebook->getAppId(); ?>', // App ID
+          channelUrl : '//www.makeitgrowgame.com/new/channel.php', // Channel File
+          status     : true, // check login status
+          cookie     : true, // enable cookies to allow the server to access the session
+          xfbml      : true  // parse XFBML
+        });
+
+        FB.Event.subscribe('auth.login',
+            function(response) {
+                window.location.reload();
+            }
+        );
+      };
+
+      // Load the SDK Asynchronously
+      (function(d){
+         var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+         if (d.getElementById(id)) {return;}
+         js = d.createElement('script'); js.id = id; js.async = true;
+         js.src = "//connect.facebook.net/en_US/all.js";
+         ref.parentNode.insertBefore(js, ref);
+       }(document));
+    </script>
+
     <div class="login-status" style="position: fixed;">
-      <?php if ($me != 0): ?>
+      <?php if ($me != 0) { ?>
         <div class="btn-group">
           <button class="btn btn-info">
             <img class="profile-img" src="https://graph.facebook.com/<?php echo $me; ?>/picture" alt="" width="32px" height="32px" />
@@ -111,9 +137,10 @@ if ($me != 0) {
             <li><a href="<?php echo $logoutUrl; ?>"> Logout </a></li>
           </ul>
         </div>   
-      <?php else: ?>
+      <?php } else { ?>
         <fb:login-button registration-url="<?php echo $config["base_url"]; ?>register.php" />
-      <?php endif ?>
+      <?php } ?>
+
     </div>
     
     <section style="text-align:center;">
@@ -166,32 +193,7 @@ if ($me != 0) {
         ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
       })();
-    </script>
-    
-    <div id="fb-root"></div>
-    <script type="text/javascript">
-        window.fbAsyncInit = function() {
-                FB.init({
-                        appId   : '<?php echo $facebook->getAppId(); ?>',
-                        status  : true, // check login status
-                        cookie  : true, // enable cookies to allow the server to access the session
-                        xfbml   : true, // parse XFBML
-                        oauth   : true
-                });
-
-                // whenever the user logs in, we refresh the page
-                FB.Event.subscribe('auth.login', function() {
-                        window.location.reload();
-                });
-        };
-
-        (function() {
-                var e = document.createElement('script');
-                e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
-                e.async = true;
-                document.getElementById('fb-root').appendChild(e);
-        }());
-    </script>
+    </script>    
 </body>
 
 </html>
