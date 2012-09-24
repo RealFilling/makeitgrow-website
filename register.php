@@ -1,6 +1,5 @@
 <?php
 require 'config.php';
-require 'libs/utils.lib.php';
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://www.facebook.com/2008/fbml">
@@ -15,9 +14,6 @@ require 'libs/utils.lib.php';
             window.fbAsyncInit = function() {
                 FB.init({
                     appId   : '<?php echo $config["appId"]; ?>',
-                    session : {},
-                    status  : true,
-                    cookie  : true,
                     xfbml   : true
                 });
 
@@ -35,7 +31,7 @@ require 'libs/utils.lib.php';
             }());
         </script>
         <fb:registration
-            fields='<?php echo retrieve_fields($config["fb_fields"]); ?>'
+            fields='<?php echo json_encode($config["fb_fields"]); ?>'
             redirect-uri="<?php echo $config["base_url"]; ?>"
             fb_only="true"
             width="530">

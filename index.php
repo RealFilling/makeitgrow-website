@@ -5,36 +5,35 @@ require 'libs/persistance.lib.php';
 
 $facebook = new Facebook(array(
             'appId' => $config["appId"],
-            'secret' => $config["secret"],
+            'secret' => $config["secret"]
         ));
 
-$congratulations = false;
-
-// Begin checking registration
-// capture the $_REQUEST coming to this page and check if it's a new user
-//check_registration($facebook,$config["fb_fields"]);
-// dump
-if ($_REQUEST) {
-  echo '<p>signed_request contents:</p>';
-  $response = parse_signed_request($_REQUEST['signed_request'], 
-                                   $config["secret"]);
-  echo '<pre>';
-  print_r($response);
-  echo '</pre>';
-} else {
-  echo '$_REQUEST is empty';
+// Repopulate _REQUEST ... Facebook needs it.
+$request_uri = $_SERVER['REQUEST_URI'];
+$request_uri = explode('?',$request_uri);
+if(count($request_uri) > 1) {
+    parse_str($request_uri[1], $_REQUEST);
 }
 
+// Begin checking registration
 $me = $facebook->getUser();
 
 if ($me != 0)
 {
   try {
-    $profile = $facebook->api('/me','GET');
-  
+    $profile = get_user_by_id($me);
+
+    if($profile == false)
+    {
+      $request = $facebook->getSignedRequest();
+      $profile = $facebook->api('/me','GET');
+      $profile["farm"] = $request["registration"]["farmname"];
+      $profile = register_user($profile);
+    }
+    
   }
   catch(FacebookApiException $e) {
-    $login_url = $facebook->getLoginUrl(); 
+    $loginUrl = $facebook->getLoginUrl();
     $me = 0;
     error_log($e->getType());
     error_log($e->getMessage());
@@ -43,11 +42,10 @@ if ($me != 0)
 
 // Get some variables first, we don't want to mess up the HTML with lots of PHP
 // I'd definitely love a templating engine right now
-$farmName = ""; //Get this from the DB
 
 $title = "Make It Grow";
 if ($me != 0)
-  $title = "".$farmName." Holistic Farm | ".$title;
+  $title = "".$profile["farm"]." Holistic Farm | ".$title;
 
 $description = " my holistic farm at Make It Grow!";
 
@@ -65,9 +63,6 @@ else
 // login or logout url will be needed depending on current user state.
 if ($me != 0) {
     $logoutUrl = $facebook->getLogoutUrl();
-} else {
-    // we are not using this url in our example
-    $loginUrl = $facebook->getLoginUrl();
 }
 
 ?>
@@ -86,6 +81,7 @@ if ($me != 0) {
     <link href="assets/css/bootstrap.css" rel="stylesheet">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js" type="text/javascript"></script>    
     <script src="assets/js/libs/bootstrap-dropdown.js" type="text/javascript"></script>
+    <script src="assets/js/libs/bootstrap-modal.js" type="text/javascript"></script>
 
     <script type="text/javascript">
     //Social Sharing Analytics
@@ -98,34 +94,46 @@ if ($me != 0) {
 </head>
 
 <body>
-    
     <div class="login-status" style="position: fixed;">
       <?php if ($me != 0): ?>
         <div class="btn-group">
           <button class="btn btn-info">
             <img class="profile-img" src="https://graph.facebook.com/<?php echo $me; ?>/picture" alt="" width="32px" height="32px" />
-            <span><?php echo $profile['name']; ?></span>
+            <span><?php echo $profile['first_name']; ?></span>
           </button>
           <button class="btn btn-info dropdown-toggle" style="padding: 10px;" data-toggle="dropdown"><span class="caret"></span></button>
           <ul class="dropdown-menu">
-            <li><a href="#">Save</a></li>
-            <li><a href="#">Share</a></li>
+            <li><a href="#">Save game</a></li>
+            <li><a href="#">Account</a></li>
+            <li class="divider"></li>
+            <li><a href="#share" role="button" data-toggle="modal">Share</a></li>
             <li class="divider"></li>
             <li><a href="<?php echo $logoutUrl; ?>"> Logout </a></li>
           </ul>
         </div>   
       <?php else: ?>
-        <fb:login-button registration-url="<?php echo $config["base_url"]; ?>/register.php" />
+        <fb:login-button registration-url="<?php echo $config["base_url"]; ?>register.php" />
       <?php endif ?>
     </div>
     
     <section style="text-align:center;">
-      <!--
         <iframe src="/game/index.html" width="800" height="600" frameborder="0" scrolling="no" name="GreenDream">
             Oh No. Your browser can't support iframes. Play the game <a href="http://www.<?=DOMAIN?>/game/"> here.</a>
         </iframe>
-      -->
     </section>
+
+    <div id="share" class="modal hide fade">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>Sharing is caring!</h3>
+      </div>
+      <div class="modal-body">
+        <p></p>
+      </div>
+      <div class="modal-footer">
+        <p>Some text here perhaps.</p>
+      </div>
+    </div>
 
     <!-- Start Shareaholic Sassy Bookmarks HTML-->
     <div class="shr_ss shr_publisher"></div>
@@ -168,7 +176,6 @@ if ($me != 0) {
                         status  : true, // check login status
                         cookie  : true, // enable cookies to allow the server to access the session
                         xfbml   : true, // parse XFBML
-                        session : {},
                         oauth   : true
                 });
 
