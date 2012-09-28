@@ -25,8 +25,8 @@ try {
       $profile = $facebook->api('/me','GET');
       $profile["farm"] = $request["registration"]["farmname"];
       $profile = register_user($profile);
-      $lastGameState = load_game($profile["id"]);
     }
+    $lastGameState = load_game($me);
   }
 
 }
@@ -36,6 +36,10 @@ catch(FacebookApiException $e) {
   error_log($e->getType());
   error_log($e->getMessage());
 }
+
+if(!isset($lastGameState)) {
+      $lastGameState = "";
+  }
 
 // Get some variables first, we don't want to mess up the HTML with lots of PHP
 // I'd definitely love a templating engine right now
@@ -97,14 +101,16 @@ if ($me != 0) {
       })();
     </script>
     <script type="text/javascript">
-      function load() {
-        return "<?php echo $lastGameState; ?>";
-      }
       function isLoggedIn() {
         return <?php echo $me; ?>;
       }
       function save(data) {
-        $.post("save.php", { gamestate: data } );
+        $.post("save.php", { gamestate: data }, function (result) {
+          console.log("Saving results:",result);
+        });
+      }
+      function load() {
+        return "<?php echo $lastGameState; ?>";
       }
     </script>
 </head>
@@ -163,9 +169,15 @@ if ($me != 0) {
     </div>
     
     <section style="text-align:center;">
-      <canvas id="canvas" width="800" height="600">
-         <p>Your browser doesn't support HTML5 canvas.</p>
-      </canvas>
+      <div class="gm4html5_div_class" id="gm4html5_div_id">
+        <!-- Create the canvas element the game draws to -->
+        <canvas id="canvas" width="800" height="600">
+           <p>Your browser doesn't support HTML5 canvas.</p>
+        </canvas>
+      </div>
+
+      <!-- Run the game code -->
+        <script type="text/javascript" src="html5game/agrigame1-116.js?QPPZB=479439280"></script>
     </section>
 
 
@@ -215,9 +227,6 @@ if ($me != 0) {
       })();
 
     </script>    
-
-    <!-- Run the game code -->
-    <script type="text/javascript" src="html5game/agrigame1-114.js?BQPAC=102439363"></script>
 </body>
 
 </html>

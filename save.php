@@ -17,10 +17,18 @@ try {
 
   if ($me != 0)
   {
-    save($me, $_POST["gamestate"]):
+    if (isset($_POST["gamestate"])) {
+      if (save_game($me, $_POST["gamestate"]) == false) {
+        die(mysql_error());
+      }
+    }
+    else {
+      die("var gamestate was not set");
+    }
+
   }
 
 }
 catch(FacebookApiException $e) {
-  die("You are not authorized to enter this area.")
+  die("You are not authorized to enter this area.");
 }
