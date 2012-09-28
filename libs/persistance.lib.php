@@ -19,3 +19,16 @@ function register_user($profile) {
     }
     return mysql_error();
 }
+
+function save_game($id, $gameState) {
+    $query = "INSERT INTO `thegreendream`.`game_saves` (`id`, `user_id`, `gamestate`, `date`)
+                                                VALUES (NULL, ".$id.", ".$gameState.", CURRENT_TIMESTAMP);";
+    return mysql_query($query);
+
+}
+
+function load_game($id) {
+    $query = "SELECT * FROM game_saves WHERE user_id=".$id." ORDER BY date LIMIT 1;"
+    $result = mysql_fetch_array(mysql_query($query));
+    return $result["gamestate"] or "";
+}

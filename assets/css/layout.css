@@ -12,3 +12,10 @@
 .profile img.profile-img, .profile a, .profile span {float: left}
 .profile img.profile-img {margin: 0 5px 0 0;}
 .profile a img {border: none}
+
+canvas {
+	background: #222;
+	color:#cccccc;
+	image-rendering: optimizeSpeed;
+	-webkit-interpolation-mode: nearest-neighbor;
+}

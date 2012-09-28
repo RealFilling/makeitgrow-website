@@ -25,6 +25,7 @@ try {
       $profile = $facebook->api('/me','GET');
       $profile["farm"] = $request["registration"]["farmname"];
       $profile = register_user($profile);
+      $lastGameState = load_game($profile["id"]);
     }
   }
 
@@ -76,6 +77,12 @@ if ($me != 0) {
     <meta name="language" content="en" />
     <meta name="description" content="<?=$description?>" />
 
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta charset="utf-8"/>
+
     <link href="assets/css/bootstrap.css" rel="stylesheet">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js" type="text/javascript"></script>    
     <script src="assets/js/libs/bootstrap-dropdown.js" type="text/javascript"></script>
@@ -88,6 +95,17 @@ if ($me != 0) {
       dgh.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'dtym7iokkjlif.cloudfront.net/dough/1.0/recipe.js';
       var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(dgh, s);
       })();
+    </script>
+    <script type="text/javascript">
+      function load() {
+        return "<?php echo $lastGameState; ?>";
+      }
+      function isLoggedIn() {
+        return <?php echo $me; ?>;
+      }
+      function save(data) {
+        $.post("save.php", { gamestate: data } );
+      }
     </script>
 </head>
 
@@ -145,9 +163,9 @@ if ($me != 0) {
     </div>
     
     <section style="text-align:center;">
-        <iframe src="game.php" width="800" height="600" frameborder="0" scrolling="no" name="GreenDream">
-            Oh No. Your browser can't support iframes. Play the game <a href="http://www.<?=DOMAIN?>/game/"> here.</a>
-        </iframe>
+      <canvas id="canvas" width="800" height="600">
+         <p>Your browser doesn't support HTML5 canvas.</p>
+      </canvas>
     </section>
 
 
@@ -197,6 +215,9 @@ if ($me != 0) {
       })();
 
     </script>    
+
+    <!-- Run the game code -->
+    <script type="text/javascript" src="html5game/agrigame1-114.js?BQPAC=102439363"></script>
 </body>
 
 </html>
