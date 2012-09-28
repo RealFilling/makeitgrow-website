@@ -1,38 +1,71 @@
 <?php
 require 'config.php';
 require 'libs/utils.lib.php';
+require 'libs/persistance.lib.php';
 
-// Roll back to Fede's version! It's in the commit history so don't worry about it now.
+$facebook = new Facebook(array(
+            'appId' => $config["appId"],
+            'secret' => $config["secret"],
+            'cookie' => true,
+            'status' => true,
+            'oauth' => true
+        ));
+
+// Begin checking registration
+try {
+  $me = $facebook->getUser();
+
+  if ($me != 0)
+  {
+    $profile = get_user_by_id($me);
+
+    if($profile == false)
+    {
+      $request = $facebook->getSignedRequest();
+      $profile = $facebook->api('/me','GET');
+      $profile["farm"] = $request["registration"]["farmname"];
+      $profile = register_user($profile);
+    }
+  }
+
+}
+catch(FacebookApiException $e) {
+  $loginUrl = $facebook->getLoginUrl();
+  $me = 0;
+  error_log($e->getType());
+  error_log($e->getMessage());
+}
 
 // Get some variables first, we don't want to mess up the HTML with lots of PHP
 // I'd definitely love a templating engine right now
-$title = "Make It Grow";
-if ($me)
-  $title = "".$farmName." Holistic Farm | ".$title;
 
-$description = " my holistic farm at Make It Grow!"
-if ($me)
+$title = "Make It Grow";
+if ($me != 0)
+  $title = "".$profile["farm"]." Holistic Farm | ".$title;
+
+$description = " my holistic farm at Make It Grow!";
+
+if ($me != 0)
   $description = "Come visit".$description; 
 else
   $description = "Grow your own".$description;
 
 // Twitter Message
-if ($me)
+if ($me != 0)
   $twit_msg = "Come visit my holistic farm in";
 else
   $twit_msg = "Grow your own sustainable farm at";
 
 // login or logout url will be needed depending on current user state.
-if ($me) {
-    $logoutUrl = $facebook->getLogoutUrl();
+if ($me != 0) {
+  $logoutUrl = $facebook->getLogoutUrl();
 } else {
-    // we are not using this url in our example
-    $loginUrl = $facebook->getLoginUrl();
+  $loginUrl = $facebook->getLoginUrl();
 }
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://www.facebook.com/2008/fbml">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://ogp.me/ns/fb#">
 <head>
     <!-- Make sure to modify the Title and Description according to whether the user is
     logged in or not so the social sharing plugins work as expected -->
@@ -42,6 +75,11 @@ if ($me) {
     <meta name="robots" content="follow, all" />
     <meta name="language" content="en" />
     <meta name="description" content="<?=$description?>" />
+
+    <link href="assets/css/bootstrap.css" rel="stylesheet">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js" type="text/javascript"></script>    
+    <script src="assets/js/libs/bootstrap-dropdown.js" type="text/javascript"></script>
+    <script src="assets/js/libs/bootstrap-modal.js" type="text/javascript"></script>
 
     <script type="text/javascript">
     //Social Sharing Analytics
@@ -54,26 +92,77 @@ if ($me) {
 </head>
 
 <body>
-    
-    <div class="login-status">
-        <?php if ($me): ?>
-        <div class="profile">
-            <img class="profile-img" src="https://graph.facebook.com/<?php echo $uid; ?>/picture" alt="" />
-            <span><?php echo $me['name']; ?></span>
-            <a href="<?php echo $logoutUrl; ?>">
-                <img src="http://static.ak.fbcdn.net/rsrc.php/z2Y31/hash/cxrz4k7j.gif" />
-            </a>
-        </div>
-        <?php else: ?>
+
+    <div id="fb-root"></div>
+    <script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId      : '<?php echo $facebook->getAppId(); ?>', // App ID
+          channelUrl : '//www.makeitgrowgame.com/new/channel.php', // Channel File
+          status     : true, // check login status
+          cookie     : true, // enable cookies to allow the server to access the session
+          xfbml      : true  // parse XFBML
+        });
+
+        FB.Event.subscribe('auth.login',
+            function(response) {
+                window.location.reload();
+            }
+        );
+      };
+
+      // Load the SDK Asynchronously
+      (function(d){
+         var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+         if (d.getElementById(id)) {return;}
+         js = d.createElement('script'); js.id = id; js.async = true;
+         js.src = "//connect.facebook.net/en_US/all.js";
+         ref.parentNode.insertBefore(js, ref);
+       }(document));
+    </script>
+
+    <div class="login-status" style="position: fixed;">
+      <?php if ($me != 0) { ?>
+        <div class="btn-group">
+          <button class="btn btn-info">
+            <img class="profile-img" src="https://graph.facebook.com/<?php echo $me; ?>/picture" alt="" width="32px" height="32px" />
+            <span><?php echo $profile['first_name']; ?></span>
+          </button>
+          <button class="btn btn-info dropdown-toggle" style="padding: 10px;" data-toggle="dropdown"><span class="caret"></span></button>
+          <ul class="dropdown-menu">
+            <li><a href="#">Save game</a></li>
+            <li><a href="#">Account</a></li>
+            <li class="divider"></li>
+            <li><a href="#share" role="button" data-toggle="modal">Share</a></li>
+            <li class="divider"></li>
+            <li><a href="<?php echo $logoutUrl; ?>"> Logout </a></li>
+          </ul>
+        </div>   
+      <?php } else { ?>
         <fb:login-button registration-url="<?php echo $config["base_url"]; ?>register.php" />
-        <?php endif ?>
+      <?php } ?>
+
     </div>
     
     <section style="text-align:center;">
-        <iframe src="/game/index.html" width="800" height="600" frameborder="0" scrolling="no" name="GreenDream">
+        <iframe src="game.php" width="800" height="600" frameborder="0" scrolling="no" name="GreenDream">
             Oh No. Your browser can't support iframes. Play the game <a href="http://www.<?=DOMAIN?>/game/"> here.</a>
         </iframe>
     </section>
+
+
+    <div id="share" class="modal hide fade">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>Sharing is caring!</h3>
+      </div>
+      <div class="modal-body">
+        <p></p>
+      </div>
+      <div class="modal-footer">
+        <p>Some text here perhaps.</p>
+      </div>
+    </div>
 
     <!-- Start Shareaholic Sassy Bookmarks HTML-->
     <div class="shr_ss shr_publisher"></div>
@@ -106,32 +195,8 @@ if ($me) {
         ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
       })();
-    </script>
-    
-    <div id="fb-root"></div>
-    <script type="text/javascript">
-        window.fbAsyncInit = function() {
-                FB.init({
-                        appId   : '<?php echo $facebook->getAppId(); ?>',
-                        session : <?php echo json_encode($session); ?>, // don't refetch the session when PHP already has it
-                        status  : true, // check login status
-                        cookie  : true, // enable cookies to allow the server to access the session
-                        xfbml   : true // parse XFBML
-                });
 
-                // whenever the user logs in, we refresh the page
-                FB.Event.subscribe('auth.login', function() {
-                        window.location.reload();
-                });
-        };
-
-        (function() {
-                var e = document.createElement('script');
-                e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
-                e.async = true;
-                document.getElementById('fb-root').appendChild(e);
-        }());
-    </script>
+    </script>    
 </body>
 
 </html>
