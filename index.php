@@ -177,7 +177,7 @@ if ($me != 0) {
       </div>
 
       <!-- Run the game code -->
-        <script type="text/javascript" src="html5game/agrigame1-116.js?QPPZB=479439280"></script>
+        <script type="text/javascript" src="html5game/index.js?XLDAC=972105764"></script>
     </section>
 
 
