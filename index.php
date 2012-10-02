@@ -163,7 +163,7 @@ if ($me != 0) {
           </ul>
         </div>   
       <?php } else { ?>
-        <fb:login-button registration-url="<?php echo $config["base_url"]; ?>register.php" />
+        <fb:login-button registration-url="<?php echo $config["base_url"]; ?>/register.php" />
       <?php } ?>
 
     </div>
