@@ -16,7 +16,7 @@ define("DOMAIN_SHORT","mig.com");
 // Facebook constants
 define('FB_APPID','286926808080601');
 define('FB_SECRET','dd4587d6dab3dcbeddaa04613d69ea35');
-define('FB_REDIRECT',"http://www.makeitgrowgame.com/new/");
+define('FB_REDIRECT',"http://www.makeitgrowgame.com/");
 
 // Connect to the database
 mysql_connect(DB_HOST, DB_USR, DB_PWD) or die("MySQL Error: " . mysql_error());
