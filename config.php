@@ -18,6 +18,9 @@ define('FB_APPID','286926808080601');
 define('FB_SECRET','dd4587d6dab3dcbeddaa04613d69ea35');
 define('FB_REDIRECT',"http://www.makeitgrowgame.com");
 
+// Game Maker Export Key
+define('GAME_KEY', 'WPZZB=1539909190');
+
 // Connect to the database
 mysql_connect(DB_HOST, DB_USR, DB_PWD) or die("MySQL Error: " . mysql_error());
 mysql_select_db(DB_NAME) or die("MySQL Error: " . mysql_error());

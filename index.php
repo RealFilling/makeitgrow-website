@@ -177,7 +177,7 @@ if ($me != 0) {
       </div>
 
       <!-- Run the game code -->
-        <script type="text/javascript" src="html5game/index.js?YSFYB=332375152"></script>
+        <script type="text/javascript" src="html5game/index.js?<?php echo GAME_KEY; ?>"></script>
     </section>
 
 
