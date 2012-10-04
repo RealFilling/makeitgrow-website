@@ -28,7 +28,7 @@ function save_game($id, $gameState) {
 }
 
 function load_game($id) {
-    $query = "SELECT * FROM game_saves WHERE user_id=".$id." ORDER BY date LIMIT 1;";
+    $query = "SELECT * FROM game_saves WHERE user_id=".$id." ORDER BY date DESC LIMIT 1;";
     $res = mysql_query($query) or die(mysql_error());
     if (mysql_num_rows($res) == 1) {
         $array = mysql_fetch_array($res);
