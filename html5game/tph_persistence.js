@@ -5,7 +5,6 @@ function gd_load()
 
 function gd_save(data)
 {
-  console.log(data);
 	return save(data);
 }
 

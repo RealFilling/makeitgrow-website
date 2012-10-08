@@ -19,7 +19,7 @@ define('FB_SECRET','dd4587d6dab3dcbeddaa04613d69ea35');
 define('FB_REDIRECT',"http://www.makeitgrowgame.com");
 
 // Game Maker Export Key
-define('GAME_KEY', 'AZYZB=1148564241');
+define('GAME_KEY', 'PQCBC=581946132');
 
 // Connect to the database
 mysql_connect(DB_HOST, DB_USR, DB_PWD) or die("MySQL Error: " . mysql_error());
@@ -38,5 +38,5 @@ $config["base_url"] = FB_REDIRECT;
 $config["fb_fields"] = array(
     	array("name" => "name")
     ,	array("name" => "email")
-    ,   array("name" => "farmname", "description" => "How will you call your farm?", "type" => "text")
+    , array("name" => "location")
 );

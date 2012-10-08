@@ -23,7 +23,6 @@ try {
     {
       $request = $facebook->getSignedRequest();
       $profile = $facebook->api('/me','GET');
-      $profile["farm"] = $request["registration"]["farmname"];
       $profile = register_user($profile);
     }
     $lastGameState = load_game($me);
