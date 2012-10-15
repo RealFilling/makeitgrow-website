@@ -32,7 +32,19 @@ function load_game($id) {
     $res = mysql_query($query) or die(mysql_error());
     if (mysql_num_rows($res) == 1) {
         $array = mysql_fetch_array($res);
-        return $array["gamestate"];
+
+        $datetime1 = new DateTime($array["timestamp"]);
+        $datetime2 = new DateTime();
+        $interval = $datetime1->diff($datetime2);
+        $diff = $interval->format("%a")*4;
+        if ($diff > 3):
+            $diff = 3
+        endif;
+
+        return array(
+                "gamestate" => $array["gamestate"],
+                "timestamp_diff" => $diff
+            );
     }
     return "";
 }
