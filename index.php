@@ -103,9 +103,9 @@ if ($me != 0) {
       function isLoggedIn() {
         return <?php echo $me; ?>;
       }
-      function save(data) {
+      function save(data,hypertime) {
         console.log("Making post call with the following data:", data);
-        $.post("save.php", { gamestate: data }, function (result) {
+        $.post("save.php", { gamestate: data, hypertime: hypertime }, function (result) {
           console.log("Saving results:",result);
         });
       }
