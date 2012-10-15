@@ -110,7 +110,7 @@ if ($me != 0) {
         });
       }
       function load() {
-        return "<?php echo $lastGameState['gamestate'].$lastGameState['timestamp_diff']; ?>";
+        return "<?php echo $lastGameState['hypertime'].$lastGameState['gamestate']; ?>";
       }
     </script>
 </head>

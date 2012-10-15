@@ -20,9 +20,9 @@ function register_user($profile) {
     return mysql_error();
 }
 
-function save_game($id, $gameState) {
-    $query = "INSERT INTO `thegreendream`.`game_saves` (`id`, `user_id`, `gamestate`, `date`)
-                                                VALUES (NULL, ".$id.", \"".$gameState."\", CURRENT_TIMESTAMP);";
+function save_game($id, $gameState, $hypertime) {
+    $query = "INSERT INTO `thegreendream`.`game_saves` (`id`, `user_id`, `gamestate`, `date`, `hypertime`)
+                                                VALUES (NULL, ".$id.", \"".$gameState."\", CURRENT_TIMESTAMP, \"".$hypertime.""\" );";
     return mysql_query($query);
 
 }
@@ -33,18 +33,24 @@ function load_game($id) {
     if (mysql_num_rows($res) == 1) {
         $array = mysql_fetch_array($res);
 
-        $datetime1 = new DateTime($array["timestamp"]);
-        $datetime2 = new DateTime();
-        $interval = $datetime1->diff($datetime2);
-        $diff = ($interval->format("%h")/24)*4;
-        
-        if ($diff > 3):
-            $diff = 3
-        endif;
+        $hourCap = 288;
+        $rate = 4;
+
+        if ($array["hypertime"] < $hourCap)
+        {
+            $datetime1 = new DateTime($array["timestamp"]);
+            $datetime2 = new DateTime();
+            $interval = $datetime1->diff($datetime2);
+            $array["hypertime"] = $interval->format("%h")*$rate;
+            
+            if ($array["hypertime"] > $hourCap):
+                $array["hypertime"] = $hourCap;
+            endif;
+        }
 
         return array(
                 "gamestate" => $array["gamestate"],
-                "timestamp_diff" => $diff
+                "hypertime" => sprintf("%1$04d",$array["hypertime"])
             );
     }
     return "";
