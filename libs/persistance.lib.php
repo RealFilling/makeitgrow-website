@@ -36,7 +36,8 @@ function load_game($id) {
         $datetime1 = new DateTime($array["timestamp"]);
         $datetime2 = new DateTime();
         $interval = $datetime1->diff($datetime2);
-        $diff = $interval->format("%a")*4;
+        $diff = ($interval->format("%h")/24)*4;
+        
         if ($diff > 3):
             $diff = 3
         endif;
