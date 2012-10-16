@@ -21,7 +21,7 @@ function register_user($profile) {
 }
 
 function save_game($id, $gameState, $hypertime) {
-    $query = "INSERT INTO `thegreendream`.`game_saves` (`id`, `user_id`, `gamestate`, `timestamp`, `hypertime`)
+    $query = "INSERT INTO `game_saves` (`id`, `user_id`, `gamestate`, `timestamp`, `hypertime`)
                                                 VALUES (NULL, ".$id.", \"".$gameState."\", CURRENT_TIMESTAMP, \"".sprintf("%1$04d",$hypertime)."\" );";
     return mysql_query($query);
 
