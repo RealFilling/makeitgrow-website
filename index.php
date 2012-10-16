@@ -105,7 +105,7 @@ if ($me != 0) {
         return <?php echo $me; ?>;
       }
       function save(data,hypertime) {
-        console.log("Making post call with the following data:", data);
+        console.log("Making post call with the following data:", data, hypertime);
         $.post("save.php", { gamestate: data, hypertime: hypertime }, function (result) {
           console.log("Saving results:",result);
         });

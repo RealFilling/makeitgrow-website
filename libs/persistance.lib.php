@@ -43,7 +43,7 @@ function load_game($id) {
             $datetime1 = new DateTime($array["timestamp"]);
             $datetime2 = new DateTime();
             $interval = date_diff($datetime2,$datetime1);
-            $ht = $interval->h;
+            $ht += $interval->h;
             $ht += $interval->d*24;
             $ht *= $rate;
             if ($ht > $hourCap):
