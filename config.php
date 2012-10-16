@@ -7,16 +7,16 @@ error_reporting(E_ALL);
 define("DB_HOST","localhost");
 define("DB_USR", "greendream");
 define("DB_PWD", "InTheGarden1");
-define("DB_NAME", "mig_prod");
+define("DB_NAME", "mig_dev");
 
 // Application constants
-define("DOMAIN",'makeitgrowgame.com');
-define("DOMAIN_SHORT","mig.com");
+define("DOMAIN",'dev,makeitgrowgame.com');
+define("DOMAIN_SHORT","dev.mig.com");
 
 // Facebook constants
-define('FB_APPID','286926808080601');
-define('FB_SECRET','dd4587d6dab3dcbeddaa04613d69ea35');
-define('FB_REDIRECT',"http://www.makeitgrowgame.com");
+define('FB_APPID','116119548542704');
+define('FB_SECRET','a064f8011c4d66800993118437e5e4e6');
+define('FB_REDIRECT',"http://dev.makeitgrowgame.com");
 
 // Game Maker Export Key
 define('GAME_KEY', 'PQCBC=581946132');
