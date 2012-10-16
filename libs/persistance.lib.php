@@ -33,8 +33,9 @@ function load_game($id) {
     if (mysql_num_rows($res) == 1) {
         $array = mysql_fetch_array($res);
 
-        $hourCap = 288;
         $rate = 4;
+        $dayCap = 5;
+        $hourCap = 24*$dayCap*$rate;
 
         $ht = intval($array["hypertime"]);
 
