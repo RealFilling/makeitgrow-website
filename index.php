@@ -11,6 +11,11 @@ $facebook = new Facebook(array(
             'oauth' => true
         ));
 
+$lastGameState = array(
+  "gamestate" => "",
+  "hypertime" => ""
+  );
+
 // Begin checking registration
 try {
   $me = $facebook->getUser();
@@ -35,10 +40,6 @@ catch(FacebookApiException $e) {
   error_log($e->getType());
   error_log($e->getMessage());
 }
-
-if(!isset($lastGameState)) {
-      $lastGameState = "";
-  }
 
 // Get some variables first, we don't want to mess up the HTML with lots of PHP
 // I'd definitely love a templating engine right now
@@ -103,14 +104,14 @@ if ($me != 0) {
       function isLoggedIn() {
         return <?php echo $me; ?>;
       }
-      function save(data) {
-        console.log("Making post call with the following data:", data);
-        $.post("save.php", { gamestate: data }, function (result) {
+      function save(data,hypertime) {
+        console.log("Making post call with the following data:", data, hypertime);
+        $.post("save.php", { gamestate: data, hypertime: hypertime }, function (result) {
           console.log("Saving results:",result);
         });
       }
       function load() {
-        return "<?php echo $lastGameState; ?>";
+        return "<?php echo $lastGameState['hypertime'].$lastGameState['gamestate']; ?>";
       }
     </script>
 </head>

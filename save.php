@@ -18,7 +18,7 @@ try {
   if ($me != 0)
   {
     if (isset($_POST["gamestate"])) {
-      if (save_game($me, $_POST["gamestate"]) == false) {
+      if (save_game($me, $_POST["gamestate"], $_POST["hypertime"]) == false) {
         die(mysql_error());
       }
     }
