@@ -7,7 +7,7 @@ error_reporting(E_ALL);
 define("DB_HOST","localhost");
 define("DB_USR", "greendream");
 define("DB_PWD", "InTheGarden1");
-define("DB_NAME", "thegreendream");
+define("DB_NAME", "mig_prod");
 
 // Application constants
 define("DOMAIN",'makeitgrowgame.com');
