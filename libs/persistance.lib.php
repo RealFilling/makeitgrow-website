@@ -36,22 +36,28 @@ function load_game($id) {
         $hourCap = 288;
         $rate = 4;
 
-        if ($array["hypertime"] < $hourCap)
+        $ht = intval($array["hypertime"]);
+
+        if ( $ht < $hourCap)
         {
             $datetime1 = new DateTime($array["timestamp"]);
             $datetime2 = new DateTime();
-            $interval = $datetime1->diff($datetime2);
-            $array["hypertime"] = $interval->format("%h")*$rate;
-            
-            if ($array["hypertime"] > $hourCap):
-                $array["hypertime"] = $hourCap;
+            $interval = date_diff($datetime2,$datetime1);
+            $ht = $interval->h;
+            $ht += $interval->d*24;
+            $ht *= $rate;
+            if ($ht > $hourCap):
+                $ht = $hourCap;
             endif;
         }
 
         return array(
                 "gamestate" => $array["gamestate"],
-                "hypertime" => sprintf("%1$04d",$array["hypertime"])
+                "hypertime" => sprintf("%1$04d",$ht)
             );
     }
-    return "";
+    return array(
+                "gamestate" => "",
+                "hypertime" => ""
+            );
 }

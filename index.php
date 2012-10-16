@@ -11,6 +11,11 @@ $facebook = new Facebook(array(
             'oauth' => true
         ));
 
+$lastGameState = array(
+  "gamestate" => "",
+  "hypertime" => ""
+  );
+
 // Begin checking registration
 try {
   $me = $facebook->getUser();
@@ -35,10 +40,6 @@ catch(FacebookApiException $e) {
   error_log($e->getType());
   error_log($e->getMessage());
 }
-
-if(!isset($lastGameState)) {
-      $lastGameState = "";
-  }
 
 // Get some variables first, we don't want to mess up the HTML with lots of PHP
 // I'd definitely love a templating engine right now
