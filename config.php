@@ -19,7 +19,7 @@ define('FB_SECRET','a064f8011c4d66800993118437e5e4e6');
 define('FB_REDIRECT',"http://dev.makeitgrowgame.com");
 
 // Game Maker Export Key
-define('GAME_KEY', 'GBYXB=786024518');
+define('GAME_KEY', 'WYABC=1083303472');
 
 // Connect to the database
 mysql_connect(DB_HOST, DB_USR, DB_PWD) or die("MySQL Error: " . mysql_error());
