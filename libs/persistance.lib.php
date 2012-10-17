@@ -20,19 +20,45 @@ function register_user($profile) {
     return mysql_error();
 }
 
-function save_game($id, $gameState) {
-    $query = "INSERT INTO `game_saves` (`id`, `user_id`, `gamestate`, `date`)
-                                                VALUES (NULL, ".$id.", \"".$gameState."\", CURRENT_TIMESTAMP);";
+function save_game($id, $gameState, $hypertime) {
+    $query = "INSERT INTO game_saves (`id`, `user_id`, `gamestate`, `timestamp`, `hypertime`)
+                                                VALUES (NULL, ".$id.", \"".$gameState."\", CURRENT_TIMESTAMP, \"".sprintf("%1$04d",$hypertime)."\" );";
     return mysql_query($query);
 
 }
 
 function load_game($id) {
-    $query = "SELECT * FROM game_saves WHERE user_id=".$id." ORDER BY date DESC LIMIT 1;";
+    $query = "SELECT * FROM game_saves WHERE user_id=".$id." ORDER BY timestamp DESC LIMIT 1;";
     $res = mysql_query($query) or die(mysql_error());
     if (mysql_num_rows($res) == 1) {
         $array = mysql_fetch_array($res);
-        return $array["gamestate"];
+
+        $rate = 4;
+        $dayCap = 5;
+        $hourCap = 24*$dayCap*$rate;
+
+        $ht = intval($array["hypertime"]);
+
+        if ( $ht < $hourCap)
+        {
+            $datetime1 = new DateTime($array["timestamp"]);
+            $datetime2 = new DateTime();
+            $interval = date_diff($datetime2,$datetime1);
+            $ht += $interval->h;
+            $ht += $interval->d*24;
+            $ht *= $rate;
+            if ($ht > $hourCap):
+                $ht = $hourCap;
+            endif;
+        }
+
+        return array(
+                "gamestate" => $array["gamestate"],
+                "hypertime" => sprintf("%1$04d",$ht)
+            );
     }
-    return "";
+    return array(
+                "gamestate" => "",
+                "hypertime" => ""
+            );
 }

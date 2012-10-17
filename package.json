@@ -1,0 +1,8 @@
+{
+  "name": "Make It Grow Website"
+  ,  "author": "Leandro Ostera <leostera@gmail.com>"
+  , "scripts": {
+      "test": "mocha"
+    , "start": ""
+  } 
+}
