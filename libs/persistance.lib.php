@@ -11,7 +11,7 @@ function get_user_by_id($id) {
 
 function register_user($profile) {
     $query = "INSERT INTO game_users (`user_id`, `name`, `first_name`, `last_name`, `password`, `email`, `farm`, `date`, `fb_id`, `location`)
-                                VALUES (NULL, '".$profile["name"]."', '".$profile["first_name"]."', '".$profile["last_name"]."', NULL, '".$profile["email"]."', '".$profile["first_name"].' '.$profile["last_name"]."\'s', NULL, ".$profile["id"].", '".$profile["location"]."')
+                                VALUES (NULL, '".$profile["name"]."', '".$profile["first_name"]."', '".$profile["last_name"]."', NULL, '".$profile["email"]."', '".$profile["first_name"].' '.$profile["last_name"]."\'s', NULL, ".$profile["id"].", '".$profile["location"]["name"]."')
                                 ON DUPLICATE KEY UPDATE fb_id=fb_id; ";
     $res = mysql_query($query);
     if ($res) {
@@ -61,4 +61,16 @@ function load_game($id) {
                 "gamestate" => "",
                 "hypertime" => ""
             );
+}
+
+function save_tutorial($id, $status) {
+    $query = 'UPDATE game_users SET tutorial_completion = '.$status.' WHERE id = '.$id;
+    return mysql_query();
+}
+
+function get_tutorial_step($step) {
+    $query = 'SELECT name, position_x, position_y, description, orientation, delay FROM game_tutorial WHERE step = '.$step;
+    $result = mysql_query($query);
+    $array = mysql_fetch_row($result);
+    return implode(',',$array);
 }

@@ -113,6 +113,17 @@ if ($me != 0) {
       function load() {
         return "<?php echo $lastGameState['hypertime'].$lastGameState['gamestate']; ?>";
       }
+      function tutorial_step (step) {
+        $.get('tutorial.php', {step: step}, function (data) {
+          console.log(data);
+          return data;
+        })
+      }
+      function save_tutorial (status) {
+        $.post('tutorial.php', {status: status}, function (result) {
+          console.log("Tutorial status saving results:",result);
+        })
+      }
     </script>
 </head>
 
