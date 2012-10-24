@@ -247,8 +247,14 @@ mixpanel.init("106f3f467f64ccc0f1a3fd06b0bcae00");</script><!-- end Mixpanel -->
     </script>
 
     <script type="text/javascript">
-      mixpanel.track('Reached homepage');
+    if(isLoggedIn() === 0) {
+      mixpanel.track('New visitor');
+    } else {
+      mixpanel.track('Login successfully');
+    }
     </script>
+
+    <a href="https://mixpanel.com/f/partner"><img src="//cdn.mxpnl.com/site_media/images/partner/badge_light.png" alt="Mobile Analytics" /></a>
 </body>
 
 </html>
