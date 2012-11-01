@@ -35,4 +35,15 @@ MakeitgrowWebsite::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
+  config.serve_static_assets = true
+
+  # config.middleware.insert_before(Rack::Lock, Rack::LiveReload)
+  # config.middleware.insert_before(
+  #   Rack::Lock, Rack::LiveReload,
+  #   :min_delay => 500,
+  #   :max_delay => 10000,
+  #   :port => 3000,
+  #   :host => 'localhost',
+  #   :ignore => [ %r{dont/modify\.html$} ]
+  # )
 end

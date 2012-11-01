@@ -5,3 +5,7 @@
 require File.expand_path('../config/application', __FILE__)
 
 MakeitgrowWebsite::Application.load_tasks
+
+task "start" => :environment do
+  system 'rails server -p 3000 -b localhost'
+end

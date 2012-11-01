@@ -2,15 +2,22 @@ source 'https://rubygems.org'
 
 gem 'rails', '3.2.8'
 
-# Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'sqlite3'
+group :development do
+  gem 'guard'
+  gem 'rb-inotify', :require => false
+  gem 'rb-fsevent', :require => false
+  gem 'rb-fchange', :require => false
+  gem 'wdm', :require => false
+  gem 'win32console'
+  gem 'sqlite3'
+end
 
 gem 'devise'
 gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'oauth2'
+
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -22,7 +29,9 @@ group :assets do
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # gem 'therubyracer', :platforms => :ruby
 
+  gem 'rack-livereload'
   gem 'uglifier', '>= 1.0.3'
+  gem 'guard-livereload'
 end
 
 gem 'jquery-rails'
