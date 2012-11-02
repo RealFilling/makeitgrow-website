@@ -7,7 +7,7 @@ set -e
 TIMEOUT=${TIMEOUT-60}
 APP_ROOT=/home/app/makeitgrow
 PID=$APP_ROOT/tmp/pids/unicorn.pid
-CMD="$APP_ROOT/bin/unicorn_rails -D -c $APP_ROOT/config/unicorn.rb -E development"
+CMD="$APP_ROOT/bin/unicorn_rails -D -c $APP_ROOT/config/unicorn.rb -E production"
 action="$1"
 set -u
 
