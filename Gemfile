@@ -8,8 +8,6 @@ group :development do
   gem 'rb-inotify', :require => false
   gem 'rb-fsevent', :require => false
   gem 'rb-fchange', :require => false
-  gem 'wdm', :require => false
-  gem 'win32console'
   gem 'sqlite3'
 end
 
@@ -43,7 +41,7 @@ gem 'jquery-rails'
 # gem 'jbuilder'
 
 # Use unicorn as the app server
-# gem 'unicorn'
+gem 'unicorn'
 
 # Deploy with Capistrano
 # gem 'capistrano'
