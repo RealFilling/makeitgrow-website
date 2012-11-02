@@ -8,8 +8,9 @@ group :development do
   gem 'rb-inotify', :require => false
   gem 'rb-fsevent', :require => false
   gem 'rb-fchange', :require => false
-  gem 'sqlite3'
 end
+
+gem 'sqlite3'
 
 gem 'devise'
 gem 'omniauth'
