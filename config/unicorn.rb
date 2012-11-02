@@ -32,7 +32,7 @@ listen 8000, :tcp_nopush => true
 timeout 30
 
 # feel free to point this anywhere accessible on the filesystem
-pid "/home/app/makeitgrow/pids/unicorn.pid"
+pid "/home/app/makeitgrow/tmp/pids/unicorn.pid"
 
 # By default, the Unicorn logger will write to stderr.
 # Additionally, ome applications/frameworks log to stderr or stdout,
