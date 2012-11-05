@@ -39,3 +39,12 @@ gem --version
 # Install Gems
 gem install rails
 gem install unicorn
+
+# Link nginx server
+rm /etc/nginx/sites-enabled/default
+ln -s ./nginx.config /etc/nginx/sites-enabled/mig
+
+# Setup unicorn service
+cd /etc/init.d
+ln -s /home/app/makeitgrow/config/unicorn_init.sh unicorn
+update-rc.d unicorn defaults
