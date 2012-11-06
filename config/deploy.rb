@@ -34,16 +34,19 @@ namespace :deploy do
     run "sudo service unicorn reload"
   end
 
+
   desc "Post Setup"
   task :post_setup do
     # Install unicorn
-    run "chmod +x #{current_path}/config/unicorn_init.sh"
-    run "sudo ln -s #{current_path}/config/unicorn_init.sh /etc/init.d/unicorn"
+    run "chmod a+x #{current_path}/config/unicorn_init.sh"
+    run "sudo ln -f -s #{current_path}/config/unicorn_init.sh /etc/init.d/unicorn"
     run "sudo update-rc.d unicorn defaults"
     # Link nginx config
-    run "sudo rm /etc/nginx/sites-enabled/default"
-    run "sudo ln -s #{current_path}/config/nginx.conf /etc/nginx/sites-enabled/mig"
+    run "sudo rm /etc/nginx/sites-enabled/default -f"
+    run "sudo ln -f -s #{current_path}/config/nginx.conf /etc/nginx/sites-enabled/mig"
+    # Make all binstubs runnable
+    run "chmod a+x #{current_path}/bin/*"
   end
 end
 
-after "deploy:update", "deploy:post_setup"
+after "deploy:update_code", "deploy:post_setup"
