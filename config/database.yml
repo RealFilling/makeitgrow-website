@@ -20,8 +20,8 @@ test:
 
 production:
   adapter: postgresql
-  username: app
-  # password: thegardenisgreendatabase
-  host: localhost
   pool: 5
-  database: mig
+  host: ec2-54-243-125-2.compute-1.amazonaws.com
+  database: ddb06ti4ffgid0
+  username: ofmhcodbkmcyvf
+  password: VmQ4BF530I2_RFS77X4JBLyQod
