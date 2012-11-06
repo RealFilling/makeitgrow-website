@@ -7,7 +7,7 @@
 
 # Feel free to change any of the following variables for your app:
 TIMEOUT=${TIMEOUT-60}
-APP_ROOT=/home/app/makeitgrow
+APP_ROOT=/home/app/current
 PID=$APP_ROOT/tmp/pids/unicorn.pid
 CMD="$APP_ROOT/bin/unicorn_rails -D -c $APP_ROOT/config/unicorn.rb -E production"
 action="$1"

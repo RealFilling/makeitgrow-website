@@ -2,21 +2,16 @@ set :application, "makeitgrow"
 
 set :deploy, :remote_cache
 set :deploy_to, "/home/app"
-set :user, "root"
+set :user, "app"
+set :password, "thegardenisgreen"
 set :use_sudo, false
 
-set :repository,  "https://github.com/RealFiling/makeitgrow-website.git"
-set :branch, "master"
+set :repository,  "git@github.com:RealFilling/makeitgrow-website.git"
 set :scm, :git
-# set :git_shallow_clone, 1
-set :keep_releases, 2
-# set :scm, :git # You can set :scm explicitly or Capistrano will make an intelligent guess based on known version control directory names
-# Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
+set :git_shallow_clone, 1
+ssh_options[:forward_agent] = true
 
-role :web, "makeitgrowgame.com"                          # Your HTTP server, Apache/etc
-
-# if you want to clean up old releases on each deploy uncomment this:
-# after "deploy:restart", "deploy:cleanup"
+role :web, "makeitgrowgame.com"
 
 namespace :deploy do
   desc "Start the Unicorn!"
@@ -41,9 +36,12 @@ namespace :deploy do
   task :post_setup do
     # Install unicorn
     run "chmod +x #{current_path}/config/unicorn_init.sh"
-    run "ln -s #{current_path}/config/unicorn_init.sh /etc/init.d/unicorn"
-    run "update-rc.d unicorn defaults"
+    run "sudo ln -s #{current_path}/config/unicorn_init.sh /etc/init.d/unicorn"
+    run "sudo update-rc.d unicorn defaults"
     # Link nginx config
-
+    run "sudo rm /etc/nginx/sites-enabled/default"
+    run "sudo ln -s #{current_path}/config/nginx.conf /etc/nginx/sites-enabled/mig"
   end
 end
+
+after "deploy:update", "deploy:post_setup"
