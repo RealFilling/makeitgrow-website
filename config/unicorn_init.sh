@@ -28,7 +28,7 @@ oldsig () {
 case $action in
 start)
   sig 0 && echo >&2 "Already running" && exit 0
-  $CMD
+  sudo $CMD
   ;;
 stop)
   sig QUIT && exit 0
@@ -61,7 +61,7 @@ upgrade)
     exit 0
   fi
   echo >&2 "Couldn't upgrade, starting '$CMD' instead"
-  $CMD
+  sudo $CMD
   ;;
 reopen-logs)
   sig USR1
