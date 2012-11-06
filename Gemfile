@@ -4,13 +4,23 @@ gem 'rails', '3.2.8'
 
 
 group :development do
+  #Quick and Dirty Database
+  gem 'sqlite3'
+
+  # Deploy with Capistrano
+  gem 'capistrano'
+
+  # Guard for LiveReloading
   gem 'guard'
   gem 'rb-inotify', :require => false
   gem 'rb-fsevent', :require => false
   gem 'rb-fchange', :require => false
 end
 
-gem 'sqlite3'
+
+group :production do
+  gem 'pg'
+end
 
 gem 'devise'
 gem 'omniauth'
@@ -44,10 +54,6 @@ gem 'jquery-rails'
 
 # Use unicorn as the app server
 gem 'unicorn'
-
-
-# Deploy with Capistrano
-gem 'capistrano'
 
 # To use debugger
 # gem 'debugger'
