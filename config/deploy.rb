@@ -61,3 +61,4 @@ namespace :deploy do
 end
 
 after "deploy:create_symlink", "deploy:post_setup"
+after "deploy:post_setup", "deploy:assets:precompile"
