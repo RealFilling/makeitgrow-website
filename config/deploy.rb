@@ -1,3 +1,5 @@
+require "bundler/capistrano"
+
 set :application, "makeitgrow"
 
 set :deploy, :remote_cache
