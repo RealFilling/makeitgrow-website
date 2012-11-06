@@ -1,4 +1,6 @@
 set :application, "makeitgrow"
+set :deploy_to, "/home/app"
+set :user, "app"
 set :repository,  "http://github.com/RealFiling/makeitgrow-website.git"
 set :scm, :git
 # set :scm, :git # You can set :scm explicitly or Capistrano will make an intelligent guess based on known version control directory names
