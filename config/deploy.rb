@@ -5,7 +5,7 @@ set :deploy_to, "/home/app"
 set :user, "root"
 set :use_sudo, false
 
-set :repository,  "http://github.com/RealFiling/makeitgrow-website.git"
+set :repository,  "https://github.com/RealFiling/makeitgrow-website.git"
 set :branch, "master"
 set :scm, :git
 # set :git_shallow_clone, 1
@@ -35,5 +35,15 @@ namespace :deploy do
     # We want to kill the pid and instantiate
     # a new Rails app instead!
     run "sudo service unicorn reload"
+  end
+
+  desc "Post Setup"
+  task :post_setup do
+    # Install unicorn
+    run "chmod +x #{current_path}/config/unicorn_init.sh"
+    run "ln -s #{current_path}/config/unicorn_init.sh /etc/init.d/unicorn"
+    run "update-rc.d unicorn defaults"
+    # Link nginx config
+
   end
 end
