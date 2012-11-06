@@ -13,7 +13,7 @@ set :scm, :git
 set :git_shallow_clone, 1
 ssh_options[:forward_agent] = true
 
-role :web, "makeitgrowgame.com"
+server "makeitgrowgame.com", :web, :app, :db
 
 namespace :deploy do
   desc "Start the Unicorn!"
