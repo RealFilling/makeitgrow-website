@@ -59,18 +59,8 @@ body {
 
 /* Navigation */
 #logo {
-  position: absolute;
-  left: 25%;
-  margin-left: -101px;
   margin-top: 10px;
   cursor: pointer;
-}
-
-@media (min-height: 720px) {
-  #logo {
-    margin-left: 30px;
-  }
-
 }
 
 nav#main .navbar-inner {
@@ -85,10 +75,13 @@ box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.2);
   font-family: 'ABeeZee', sans-serif;
   text-align: justify;
   color: #454545;
-  position: absolute;
-  left: 50%;
   margin-top: -45px;
-  margin-left: -480px;
+
+  position: absolute;
+  max-width: 960px;
+  left: 50%;
+  margin-left: -500px;
+
   z-index: 10;
   padding: 30px;
   padding-top: 140px;
@@ -104,19 +97,18 @@ box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.2);
   color: #cf6f11;
 }
 
-#container .span5 {
-  margin-left: 25px;
-  margin-right: 0;
+#container #left {
+  margin-left: 15px
 }
 
-#container .span6 {
-  margin-left: 50px;
-  margin-top: 10px;
+#container #right {
+  margin-left: 35px;
 }
 
 body #container .button-holder button.btn {
   width: 185px;
   height: 60px;
+  margin: 0 4px;
   margin-top: 22px;
 }
 
@@ -201,68 +193,6 @@ body #container .button-holder button.btn {
 footer {
   position: absolute;
   left: 50%;
-  margin-top: 555px;
-  margin-left: -210px;
-}
-
-/* Game Style */
-#gameholder {
-  position: absolute;
-  left: 50%;
-  margin-left: -400px;
-  padding-top: 60px;
-  padding-bottom: 40px;
-}
-
-#gameholder img {
-  border-radius: 6px;
-  border: 5px rgba(255,255,255,0.5) solid;
-}
-
-/* Navigation */
-nav#game #logo {
-  margin-left: -130px;
-  cursor: pointer;
-}
-
-nav#game {
-  position: relative;
-}
-
-nav#game .navbar-inner {
-  height: 60px;
-  background: url(asset_path('navbar-bg.jpg', image)) top left repeat-x;
-  -webkit-box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.2);
-box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.2);
-}
-
-@media (min-height: 720px) {
-  nav#game #logo {
-    margin-left: 0px;
-  }
-
-}
-
-
-.account {
-  font-family: 'ABeeZee';
-  color: #ffefb7;
-  font-size: 12pt;  
-  margin-top: 7px;
-  position: absolute;
-  right: 0px;
-  margin-right: 50px;
-  width: 156px;
-  height: 44px;
-  background: url(asset_path('userbtn.png', image)) top left no-repeat;
-  padding: 7px;
-  padding-left: 10px;
-}
-
-footer#game {
-  position: absolute;
-  left: 50%;
-  margin-top: 640px;
-  padding-bottom: 15px;
+  margin-top: 80%;
   margin-left: -210px;
 }

@@ -2,9 +2,8 @@ source 'https://rubygems.org'
 
 gem 'rails', '3.2.8'
 
-
 group :development do
-  #Quick and Dirty Database
+  # Quick and Dirty Database
   gem 'sqlite3'
 
   # Deploy with Capistrano
@@ -15,45 +14,36 @@ group :development do
   gem 'rb-inotify', :require => false
   gem 'rb-fsevent', :require => false
   gem 'rb-fchange', :require => false
-end
 
+  # Because everybody loves them
+  gem "nifty-generators"
+end
 
 group :production do
   gem 'pg'
 end
 
+# Authentication
 gem 'devise'
 gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'oauth2'
 
+# Slim complains when playing with other asset gems
+gem 'slim'
 
 # Gems used only for assets and not required
 # in production environments by default.
-gem 'slim'
-
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
-
-  # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  # gem 'therubyracer', :platforms => :ruby
-
-  gem 'rack-livereload'
   gem 'uglifier', '>= 1.0.3'
   gem 'guard-livereload'
 end
 
 gem 'jquery-rails'
 
-# To use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.0.0'
-
-# To use Jbuilder templates for JSON
-# gem 'jbuilder'
-
 # Use unicorn as the app server
 gem 'unicorn'
 
-# To use debugger
-# gem 'debugger'
+gem "mocha", :group => :test

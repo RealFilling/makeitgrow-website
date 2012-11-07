@@ -19,3 +19,4 @@
 insecure_private_key
 .vagrant
 Vagrantfile
+package.box

@@ -48,5 +48,18 @@ namespace :deploy do
     run "chmod a+x #{current_path}/bin/*"
   end
 end
-
 after "deploy:create_symlink", "deploy:post_setup"
+
+namespace :logs do
+  task :default do
+    stream "tail -f #{shared_path}/log/*"
+  end
+
+  task :prod do
+    stream "tail -f #{shared_path}/log/production.log"
+  end
+
+  task :unicorn do
+    stream "tail -f #{shared_path}/log/unicorn.std*.log"
+  end
+end
