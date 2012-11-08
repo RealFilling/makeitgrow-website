@@ -1,0 +1,24 @@
+nav.navbar.navbar-inverse.navbar-fixed-top#main
+  .navbar-inner
+    .container
+      .row
+        .span3
+          = image_tag "logo.png", :id => "logo"
+        .span3.offset6.account
+          - if user_signed_in?
+            - if not current_user.provider.blank?
+              // This should be current_user.get_avatar_src_url
+              img.profile-img(src="https://graph.facebook.com/#{current_user.username}/picture" alt="" width="32px" height="32px")
+            - else
+              = image_tag "no_picture.jpg", :width => "32px"
+
+            span #{current_user.username}
+            = link_to "Sign Out", destroy_user_session_path, :method => :delete
+
+          - else
+            span
+              = link_to "Login", new_user_session_path, :method => :get
+              |  or 
+              a(href="#{user_omniauth_authorize_path(:facebook)}")
+                | use
+                = image_tag "facebook_64.png", :width => "32px"

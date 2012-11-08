@@ -13,23 +13,7 @@ html
     
   body
     #fade-in
-      nav.navbar.navbar-inverse.navbar-fixed-top#main
-        .navbar-inner
-          .container
-            .row
-              .span3
-                = image_tag "logo.png", :id => "logo"
-              .span3.offset6.account
-                - if user_signed_in?
-                  img.profile-img(src="https://graph.facebook.com/&lt;?php echo $me; ?&gt;/picture" alt="" width="32px" height="32px")
-                  span Leandro
-                - else
-                  a(href="#{user_omniauth_authorize_path(:facebook)}")
-                    = image_tag "facebook_64.png", :width => "32px"
-                  a(href="/auth/t")
-                    = image_tag "twitter_64.png", :width => "32px"                  
-                  a(href="/auth/g")
-                    = image_tag "google_64.png", :width => "32px"
+      = render "layouts/navbar"
 
       .glassdient
       .grassdient
