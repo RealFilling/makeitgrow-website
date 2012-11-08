@@ -50,7 +50,7 @@ namespace :deploy do
 
   desc "Gather thy men!"
   task :pre_setup do
-    run "rm #{current_path} #{shared_path} #{releases_path} /tmp/unicorn.sock -rf"
+    run "sudo rm #{current_path} #{shared_path} #{releases_path} /tmp/unicorn.sock -rf"
   end
 end
 
