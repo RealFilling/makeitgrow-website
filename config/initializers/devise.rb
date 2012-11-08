@@ -82,7 +82,7 @@ Devise.setup do |config|
   config.stretches = Rails.env.test? ? 1 : 10
 
   # Setup a pepper to generate the encrypted password.
-  # config.pepper = "c48b2a3766174122d0c24e28e5dc3bad6ca3aca60d00bc7f10974f53e57a1e15cfb5af8b859b6734f7513eeeeaf7c9764a6dad4d222c93b62ee41c69e3218b92"
+  # config.pepper = "48efe3883aed9a9d365401bc5a347681430a6219ea02e35527bee6d937a136860c9918525f4ab8b99da1f30a665d4707e3bf26fad5a925630af69a2699dc6f9c"
 
   # ==> Configuration for :confirmable
   # A period that the user is allowed to access the website even without
@@ -206,6 +206,7 @@ Devise.setup do |config|
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', :scope => 'user,public_repo'
+  config.omniauth :facebook, "286926808080601", "dd4587d6dab3dcbeddaa04613d69ea35", {:scope => 'email, friends_likes, offline_access'}
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
@@ -228,9 +229,5 @@ Devise.setup do |config|
   #
   # When using omniauth, Devise cannot automatically set Omniauth path,
   # so you need to do it manually. For the users scope, it would be:
-  config.omniauth_path_prefix = "/auth"
-
-  # OAuth
-  require "omniauth-facebook"
-  config.omniauth :facebook, "286926808080601", "dd4587d6dab3dcbeddaa04613d69ea35", {:scope => 'email, friends_likes, offline_access'}
+  # config.omniauth_path_prefix = "/my_engine/users/auth"
 end

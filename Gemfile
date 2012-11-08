@@ -1,6 +1,10 @@
 source 'https://rubygems.org'
 
+# Rails
 gem 'rails', '3.2.8'
+# Authentication
+gem 'devise'
+gem 'omniauth-facebook'
 
 group :development do
   # Quick and Dirty Database
@@ -19,18 +23,17 @@ group :development do
   gem "nifty-generators"
 end
 
+# Use unicorn as the app server
+gem 'unicorn'
+
 group :production do
+  # PostgreSQL Driver
   gem 'pg'
 end
 
-# Authentication
-gem 'devise'
-gem 'omniauth'
-gem 'omniauth-facebook'
-gem 'oauth2'
-
 # Slim complains when playing with other asset gems
 gem 'slim'
+gem 'jquery-rails'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -41,9 +44,6 @@ group :assets do
   gem 'guard-livereload'
 end
 
-gem 'jquery-rails'
-
-# Use unicorn as the app server
-gem 'unicorn'
-
-gem "mocha", :group => :test
+group :test do
+  gem "mocha"
+end

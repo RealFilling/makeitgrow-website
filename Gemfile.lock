@@ -199,8 +199,6 @@ DEPENDENCIES
   jquery-rails
   mocha
   nifty-generators
-  oauth2
-  omniauth
   omniauth-facebook
   pg
   rails (= 3.2.8)

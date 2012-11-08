@@ -24,7 +24,7 @@ html
                   img.profile-img(src="https://graph.facebook.com/&lt;?php echo $me; ?&gt;/picture" alt="" width="32px" height="32px")
                   span Leandro
                 - else
-                  a(href="/auth/facebook")
+                  a(href="#{user_omniauth_authorize_path(:facebook)}")
                     = image_tag "facebook_64.png", :width => "32px"
                   a(href="/auth/twitter")
                     = image_tag "twitter_64.png", :width => "32px"                  
