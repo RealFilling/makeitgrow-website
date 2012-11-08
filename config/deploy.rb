@@ -47,7 +47,14 @@ namespace :deploy do
     # Make all binstubs runnable
     run "chmod a+x #{current_path}/bin/*"
   end
+
+  desc "Gather thy men!"
+  task :pre_setup do
+    run "rm #{current_path} #{shared_path} #{releases_path} -rf"
+  end
 end
+
+before "deploy:setup", "deploy:pre_setup"
 after "deploy:create_symlink", "deploy:post_setup"
 
 namespace :logs do
