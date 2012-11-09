@@ -6,3 +6,22 @@
           p Your browser doesn't support HTML5 canvas.
       <script src="assets/index.js?KUXYB=583353334">
       </script>
+
+- if user_signed_in?
+  javascript:
+    function isLoggedIn() {
+    return 1;
+    };
+
+- else
+  javascript:
+    function isLoggedIn() {
+    return 0;
+    };
+
+- if user_signed_in?  
+  javascript:
+    function load() { return "#{last_save.hypertime}#{last_save.gamestate}"; };
+- else
+  javascript:
+    function load() { return ""; };
