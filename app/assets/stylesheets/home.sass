@@ -1,0 +1,222 @@
+// Place all the styles related to the home controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+// ScrollBar
+
+\::-webkit-scrollbar
+  width: 12px
+  background: rgba(255, 255, 255, 0.01)
+
+\::-webkit-scrollbar-track
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3)
+  -webkit-border-radius: 10px
+  border-radius: 5px
+  background: rgba(255, 255, 255, 0.3)
+
+\::-webkit-scrollbar-thumb
+  -webkit-border-radius: 10px
+  border-radius: 5px
+  background: rgba(225, 143, 28, 0.3)
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5)
+  &:window-inactive
+    background: rgba(255, 255, 255, 0.3)
+
+// General
+@import url('http://fonts.googleapis.com/css?family=Lobster')
+
+@import url(http://fonts.googleapis.com/css?family=ABeeZee)
+
+body
+  background-color: #81b5ff
+  background: url(asset_path("bg.png", image))
+
+a
+  color: #FFEFB7
+
+  img
+    opacity: 0.7
+
+  &:hover
+    text-decoration: none
+
+    img
+      opacity: 1
+
+#fade-in
+  opacity: 0
+
+.grassdient
+  display: block
+  height: 333px
+  width: 100%
+  position: fixed
+  z-index: 0
+  bottom: 0
+  background: url(asset_path("pasto.png", image)) bottom left repeat-x
+
+.glassdient
+  position: fixed
+  height: 1000px
+  width: 100%
+  top: 0
+  background: url(asset_path("gradient.png", image)) bottom left repeat-x
+
+// Navigation
+
+#logo
+  margin-top: 10px
+  cursor: pointer
+
+nav#main .navbar-inner
+  height: 60px
+  background: url(asset_path("navbar-bg.jpg", image)) top left repeat-x
+  -webkit-box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.2)
+  box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.2)
+
+// Container
+
+#container
+  font-family: 'ABeeZee', sans-serif
+  text-align: justify
+  color: #454545
+  margin-top: -45px
+  position: absolute
+  max-width: 960px
+  left: 50%
+  margin-left: -500px
+  z-index: 10
+  padding: 30px
+  padding-top: 140px
+  background-color: #e5d0b0
+  -webkit-box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.2)
+  box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.2)
+  border-radius: 8px
+  h1#headline
+    font-size: 18pt
+    text-align: right
+    color: #cf6f11
+  #left
+    margin-left: 15px
+  #right
+    margin-left: 35px
+
+body #container .button-holder button.btn
+  width: 185px
+  height: 60px
+  margin: 0 4px
+  margin-top: 22px
+
+.button-holder button
+  &.btn#fs
+    margin-left: 6px
+  &#fs
+    border-radius: 10px
+    background: #df6137
+    // Old browsers
+    background-image: url(asset_path("btn-buyfood.png", image)), -moz-linear-gradient(top, #df6137 0%, #e99153 100%)
+    // FF3.6+
+    background-image: url(asset_path("btn-buyfood.png", image)), -webkit-gradient(linear, left top, left bottom, color-stop(0%, #df6137), color-stop(100%, #e99153))
+    // Chrome,Safari4+
+    background-image: url(asset_path("btn-buyfood.png", image)), -webkit-linear-gradient(top, #df6137 0%, #e99153 100%)
+    // Chrome10+,Safari5.1+
+    background-image: url(asset_path("btn-buyfood.png", image)), -o-linear-gradient(top, #df6137 0%, #e99153 100%)
+    // Opera 11.10+
+    background-image: url(asset_path("btn-buyfood.png", image)), -ms-linear-gradient(top, #df6137 0%, #e99153 100%)
+    // IE10+
+    background-image: url(asset_path("btn-buyfood.png", image)), linear-gradient(to bottom, #df6137 0%, #e99153 100%)
+    // W3C
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#df6137', endColorstr='#e99153',GradientType=0 )
+    // IE6-9
+    &:hover
+      background: #f2733c
+      // Old browsers
+      background-image: url(asset_path("btn-buyfood.png", image)), -moz-linear-gradient(top, #f2733c 0%, #efaa56 100%)
+      // FF3.6+
+      background-image: url(asset_path("btn-buyfood.png", image)), -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f2733c), color-stop(100%, #efaa56))
+      // Chrome,Safari4+
+      background-image: url(asset_path("btn-buyfood.png", image)), -webkit-linear-gradient(top, #f2733c 0%, #efaa56 100%)
+      // Chrome10+,Safari5.1+
+      background-image: url(asset_path("btn-buyfood.png", image)), -o-linear-gradient(top, #f2733c 0%, #efaa56 100%)
+      // Opera 11.10+
+      background-image: url(asset_path("btn-buyfood.png", image)), -ms-linear-gradient(top, #f2733c 0%, #efaa56 100%)
+      // IE10+
+      background-image: url(asset_path("btn-buyfood.png", image)), linear-gradient(to bottom, #f2733c 0%, #efaa56 100%)
+      // W3C
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f2733c', endColorstr='#efaa56',GradientType=0 )
+      // IE6-9
+    &:active
+      background: #e99153
+      // Old browsers
+      background-image: url(asset_path("btn-buyfood.png", image)), -moz-linear-gradient(top, #e99153 0%, #df6137 100%)
+      // FF3.6+
+      background-image: url(asset_path("btn-buyfood.png", image)), -webkit-gradient(linear, left top, left bottom, color-stop(0%, #e99153), color-stop(100%, #df6137))
+      // Chrome,Safari4+
+      background-image: url(asset_path("btn-buyfood.png", image)), -webkit-linear-gradient(top, #e99153 0%, #df6137 100%)
+      // Chrome10+,Safari5.1+
+      background-image: url(asset_path("btn-buyfood.png", image)), -o-linear-gradient(top, #e99153 0%, #df6137 100%)
+      // Opera 11.10+
+      background-image: url(asset_path("btn-buyfood.png", image)), -ms-linear-gradient(top, #e99153 0%, #df6137 100%)
+      // IE10+
+      background-image: url(asset_path("btn-buyfood.png", image)), linear-gradient(to bottom, #e99153 0%, #df6137 100%)
+      // W3C
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e99153', endColorstr='#df6137',GradientType=0 )
+      // IE6-9
+  &#mig
+    border-radius: 10px
+    background: #57a04e
+    // Old browsers
+    background-image: url(asset_path("btn-growyourown.png", image)), -moz-linear-gradient(top, #57a04e 0%, #89d281 100%)
+    // FF3.6+
+    background-image: url(asset_path("btn-growyourown.png", image)), -webkit-gradient(linear, left top, left bottom, color-stop(0%, #57a04e), color-stop(100%, #89d281))
+    // Chrome,Safari4+
+    background-image: url(asset_path("btn-growyourown.png", image)), -webkit-linear-gradient(top, #57a04e 0%, #89d281 100%)
+    // Chrome10+,Safari5.1+
+    background-image: url(asset_path("btn-growyourown.png", image)), -o-linear-gradient(top, #57a04e 0%, #89d281 100%)
+    // Opera 11.10+
+    background-image: url(asset_path("btn-growyourown.png", image)), -ms-linear-gradient(top, #57a04e 0%, #89d281 100%)
+    // IE10+
+    background-image: url(asset_path("btn-growyourown.png", image)), linear-gradient(to bottom, #57a04e 0%, #89d281 100%)
+    // W3C
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#57a04e', endColorstr='#89d281',GradientType=0 )
+    // IE6-9
+    &:hover
+      background: #f2733c
+      // Old browsers
+      background-image: url(asset_path("btn-growyourown.png", image)), -moz-linear-gradient(top, #4cad40 0%, #96e072 100%)
+      // FF3.6+
+      background-image: url(asset_path("btn-growyourown.png", image)), -webkit-gradient(linear, left top, left bottom, color-stop(0%, #4cad40), color-stop(100%, #96e072))
+      // Chrome,Safari4+
+      background-image: url(asset_path("btn-growyourown.png", image)), -webkit-linear-gradient(top, #4cad40 0%, #96e072 100%)
+      // Chrome10+,Safari5.1+
+      background-image: url(asset_path("btn-growyourown.png", image)), -o-linear-gradient(top, #4cad40 0%, #96e072 100%)
+      // Opera 11.10+
+      background-image: url(asset_path("btn-growyourown.png", image)), -ms-linear-gradient(top, #4cad40 0%, #96e072 100%)
+      // IE10+
+      background-image: url(asset_path("btn-growyourown.png", image)), linear-gradient(to bottom, #4cad40 0%, #96e072 100%)
+      // W3C
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#4cad40', endColorstr='#96e072',GradientType=0 )
+      // IE6-9
+    &:active
+      background: #89d281
+      // Old browsers
+      background-image: url(asset_path("btn-growyourown.png", image)), -moz-linear-gradient(top, #89d281 0%, #57a04e 100%)
+      // FF3.6+
+      background-image: url(asset_path("btn-growyourown.png", image)), -webkit-gradient(linear, left top, left bottom, color-stop(0%, #89d281), color-stop(100%, #57a04e))
+      // Chrome,Safari4+
+      background-image: url(asset_path("btn-growyourown.png", image)), -webkit-linear-gradient(top, #89d281 0%, #57a04e 100%)
+      // Chrome10+,Safari5.1+
+      background-image: url(asset_path("btn-growyourown.png", image)), -o-linear-gradient(top, #89d281 0%, #57a04e 100%)
+      // Opera 11.10+
+      background-image: url(asset_path("btn-growyourown.png", image)), -ms-linear-gradient(top, #89d281 0%, #57a04e 100%)
+      // IE10+
+      background-image: url(asset_path("btn-growyourown.png", image)), linear-gradient(to bottom, #89d281 0%, #57a04e 100%)
+      // W3C
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#89d281', endColorstr='#57a04e',GradientType=0 )
+      // IE6-9
+
+footer
+  position: absolute
+  left: 50%
+  margin-top: 80%
+  margin-left: -210px
