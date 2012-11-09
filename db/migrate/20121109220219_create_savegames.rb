@@ -3,7 +3,7 @@ class CreateSavegames < ActiveRecord::Migration
     create_table :savegames do |t|
       t.string :uid
       t.string :gamestate
-      t.number :hypertime
+      t.integer :hypertime
 
       t.timestamps
     end
