@@ -6,6 +6,16 @@ nav.navbar.navbar-inverse.navbar-fixed-top#main
           = image_tag "logo.png", :id => "logo"
         .span3.offset6.account
           - if user_signed_in?
+
+            - if not current_user.uid.blank?
+              javascript:
+                mixpanel.identify(current_user.uid)
+                mixpanel.register_once({ "provider": current_user.provider})
+            - else
+              javascript:
+                mixpanel.identify(current_user.id)
+                mixpanel.register_once({ "provider": "mig"})
+
             - if not current_user.provider.blank?
               // This should be current_user.get_avatar_src_url
               img.profile-img(src="https://graph.facebook.com/#{current_user.username}/picture" alt="" width="32px" height="32px")
