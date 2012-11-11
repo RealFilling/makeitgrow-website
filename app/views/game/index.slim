@@ -24,7 +24,7 @@
 
 - if user_signed_in?  
   javascript:
-    function load() { return "#{last_save.hypertime}#{last_save.gamestate}"; };
+    function load() { return "{last_save.hypertime}{last_save.gamestate}"; };
 - else
   javascript:
     function load() { return ""; };
