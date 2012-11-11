@@ -9,11 +9,11 @@ nav.navbar.navbar-inverse.navbar-fixed-top#main
 
             - if not current_user.uid.blank?
               javascript:
-                mixpanel.identify(current_user.uid)
-                mixpanel.register_once({ "provider": current_user.provider})
+                mixpanel.identify(#{current_user.uid})
+                mixpanel.register_once({ "provider": #{current_user.provider}})
             - else
               javascript:
-                mixpanel.identify(current_user.id)
+                mixpanel.identify(#{current_user.id})
                 mixpanel.register_once({ "provider": "mig"})
 
             - if not current_user.provider.blank?
