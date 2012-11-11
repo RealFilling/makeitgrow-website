@@ -9,13 +9,20 @@ nav.navbar.navbar-inverse.navbar-fixed-top#main
 
             - if not current_user.uid.blank?
               javascript:
-                mixpanel.identify(#{current_user.uid})
-                mixpanel.register_once({ "provider": #{current_user.provider}})
+                mixpanel.people.identify(#{current_user.uid})
+                mixpanel.people.set({
+                  "provider": #{current_user.provider},
+                  "$name": "#{current_user.username}",
+                  "$email": "#{current_user.email}"
+                  })
             - else
               javascript:
-                mixpanel.identify(#{current_user.id})
-                mixpanel.register_once({ "provider": "mig"})
-
+                mixpanel.people.identify(#{current_user.id})
+                mixpanel.people.set({
+                  "provider": "mig",
+                  "$name": "#{current_user.username}",
+                  "$email": "#{current_user.email}"
+                  })
             - if not current_user.provider.blank?
               // This should be current_user.get_avatar_src_url
               img.profile-img(src="https://graph.facebook.com/#{current_user.username}/picture" alt="" width="32px" height="32px")
