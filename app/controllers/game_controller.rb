@@ -1,11 +1,11 @@
 class GameController < ApplicationController
   def index
-    if user_signed_in?
-      game = Savegame.where("uid == #{current_user.uid}").order('timestamp DESC').limit(1)
-      respond_to do |format|
-        format.json { render :json => game}
-      end
-    end
+    # if user_signed_in?
+    #   game = Savegame.where("uid == #{current_user.uid}").order('timestamp DESC').limit(1)
+    #   respond_to do |format|
+    #     format.json { render :json => game}
+    #   end
+    # end
   end
 
   def save
