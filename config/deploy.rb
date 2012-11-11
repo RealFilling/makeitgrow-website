@@ -16,6 +16,12 @@ ssh_options[:forward_agent] = true
 
 server "makeitgrowgame.com", :web, :app, :db
 
+namespace :nginx do
+  task :restart do
+    run "sudo service nginx restart"
+  end
+end
+
 namespace :deploy do
   desc "Start the Unicorn!"
   task :start do

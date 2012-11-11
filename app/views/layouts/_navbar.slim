@@ -11,7 +11,7 @@ nav.navbar.navbar-inverse.navbar-fixed-top#main
               javascript:
                 mixpanel.people.identify(#{current_user.uid})
                 mixpanel.people.set({
-                  "provider": #{current_user.provider},
+                  "provider": "#{current_user.provider}",
                   "$name": "#{current_user.username}",
                   "$email": "#{current_user.email}"
                   })
